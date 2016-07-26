@@ -1,76 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% load static %}
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.min.css">
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <link rel="stylesheet"
-        href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-  <script type='text/javascript'>
-    addFormStyles = function() {
-      $('select,input[type="text"],input[type="datetime"],input[type="date"],input[type="time"],input[type="number"]').addClass('form-control').addClass('my-form-control');
-      $('label').addClass('control-label').addClass('my-control-label');
-    };
+    <script type='text/javascript'>
+        addFormStyles = function() {
+            $('select,input[type="text"],input[type="datetime"],input[type="date"],input[type="time"],input[type="number"]').addClass('form-control').addClass('my-form-control');
+            $('label').addClass('control-label').addClass('my-control-label');
+        };
 
-    $(document).ready(function() {
-      addFormStyles();
-    });
-  </script>
+        $(document).ready(function() {
+            addFormStyles();
+        });
+    </script>
 
-  <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css" media="screen">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css" media="screen">
 
-  <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 
-  {% block head %}{% endblock %}
+    {% block head %}{% endblock %}
 </head>
 <body>
 
 <nav class="navbar navbar-default navbar-fixed-top my-navbar">
-  {% if not user.is_anonymous %}
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="{% url 'account_profile' %}">
-        <span class="glyphicon-lg glyphicon glyphicon-user"></span>
-      </a></li>
-      <li><a href="{% url 'account_logout' %}">
-        <span class="glyphicon-lg glyphicon glyphicon-log-out"></span>
-      </a></li>
+        {% if not user.is_anonymous %}
+            <li><a href="{% url 'account_profile' %}">
+                Profile
+            </a></li>
+            <li><a href="{% url 'account_logout' %}">
+                Logout
+            </a></li>
+        {% endif %}
+        <li><a href="{% url 'privacy' %}">
+            Privacy
+        </a></li>
     </ul>
-  {% endif %}
 
-  <div class="navbar-header">
-    <a class="brand" href="">
-      <span>escape from fb</span><br>
-    </a>
-  </div>
+    <div class="navbar-header">
+        <a class="brand" href="">
+            <span>escape from fb</span><br>
+        </a>
+    </div>
 </nav>
 
 <div class="spacing_top">
-  {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </div>
 
 {% block footer %}
-  <div class="footer">
-    <div class="center">
-      <div>Found a bug? Have a feature request? Please
-        <a target="_blank" href="https://github.com/jessamynsmith/escape-from-fb/issues">
-          let us know</a>. You can also check out the
-        <a target="_blank" href="https://github.com/jessamynsmith/escape-from-fb">source code</a> yourself!
-      </div>
+    <div class="footer">
+        <div class="center">
+            <div>Found a bug? Have a feature request? Please
+                <a target="_blank" href="https://github.com/jessamynsmith/escape-from-fb/issues">
+                    let us know</a>. You can also check out the
+                <a target="_blank" href="https://github.com/jessamynsmith/escape-from-fb">source
+                    code</a> yourself!
+            </div>
 
-      <div class="grey">Version {{ VERSION }}, Deployed
-        {{ DEPLOY_DATE|date:"M d, Y, H:i:s e" }}
-      </div>
+            <div class="grey">Version {{ VERSION }}, Deployed
+                {{ DEPLOY_DATE|date:"M d, Y, H:i:s e" }}
+            </div>
+        </div>
     </div>
-  </div>
 {% endblock %}
 
 </body>

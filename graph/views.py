@@ -5,6 +5,10 @@ from django.views.generic import TemplateView
 import facebook
 
 
+class PrivacyView(TemplateView):
+    template_name = 'account/privacy.html'
+
+
 @method_decorator(login_required, name='dispatch')
 class UserProfileView(TemplateView):
     template_name = 'account/profile.html'
@@ -14,5 +18,5 @@ class UserProfileView(TemplateView):
         social_accounts = self.request.user.socialaccount_set.all()
         if social_accounts.count():
             graph_api = facebook.GraphAPI(social_accounts[0].socialtoken_set.all()[0].token)
-            context['info'] = graph_api.get_objects(['me'])
+            context['info'] = graph_api.get_connections('me', 'posts')
         return context

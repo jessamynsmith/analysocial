@@ -5,5 +5,5 @@ from graph import views as graph_views
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url='accounts/profile/'), name="account_profile"),
-    url(r'^accounts/profile/', graph_views.ProfileView.as_view()),
+    url(r'^accounts/profile/', graph_views.UserProfileView.as_view()),
 ]

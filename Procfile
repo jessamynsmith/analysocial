@@ -1,2 +1,2 @@
-web: gunicorn facebook_data.wsgi --log-file -
+web: gunicorn escape_from_fb.wsgi --log-file -
 

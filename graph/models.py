@@ -1,3 +1,10 @@
-from django.db import models
+from allauth.socialaccount import signals as allauth_signals
 
-# Create your models here.
+
+def update_user_email(request, sociallogin, **kwargs):
+    if not sociallogin.user.email:
+        sociallogin.user.email = sociallogin.email_addresses[0].email
+        sociallogin.user.save()
+
+
+allauth_signals.pre_social_login.connect(update_user_email)

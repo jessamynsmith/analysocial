@@ -1,0 +1,68 @@
+body {
+    padding-top: 50px;
+    margin: 10px;
+}
+
+.my-form-control {
+    width: auto;
+    display: inline;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.my-control-label {
+    display: inline;
+}
+
+.center {
+    width: 100%;
+    text-align: center;
+}
+
+p.error_message {
+    color: red;
+}
+
+.spacing_top {
+    margin-top: 10px;
+}
+
+.glyphicon-lg {
+    font-size: 18px;
+    line-height: 1.33;
+}
+
+.statistics {
+    padding-top: 10px;
+    width: 90%;
+}
+
+.my-navbar a, .navbar-default .navbar-nav > li > a {
+    color: #355E3B;
+    text-decoration: none;
+}
+
+.brand {
+    float: left;
+    font-weight: bold;
+    font-size: 26px;
+    padding-top: 8px;
+    padding-left: 10px;
+    white-space: nowrap;
+}
+
+.navbar-nav > li, .navbar-nav {
+    float: left !important;
+}
+
+.navbar-right > li:last-child {
+    margin-right: 10px !important;
+}
+
+.navbar-right {
+    float: right !important;
+}
+
+.footer {
+    padding-top: 12px;
+}

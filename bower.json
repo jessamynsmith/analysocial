@@ -1,0 +1,22 @@
+{
+  "name": "analysocial",
+  "authors": [
+    "Jessamyn Smith <jessamyn.smith@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "homepage": "https://analysocial.herokuapp.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "~2.1.4"
+  }
+}

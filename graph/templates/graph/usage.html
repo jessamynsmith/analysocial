@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
-{% load i18n %}
+{% load i18n static %}
 
 {% block title %}{% trans "Usage" %}{% endblock %}
 
 {% block content %}
-    <h3>{% trans "Usage" %}</h3>
+    <div id="id_usage"></div>
 
-    <p>
-        Usage graph goes here.
-    </p>
+{% endblock %}
 
+{% block extra_js %}
+    <script src="{% static 'highcharts/highcharts.js' %}"></script>
+    <script src="{% static 'graph/js/usage.js' %}"></script>
 {% endblock %}

@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
+{% block title %}{% trans "User Profile" %}{% endblock %}
+
 {% block content %}
-    Hi, {{ user }}
-    <br>
-    {{ info }}
-    <br>
+    <h3>Hi, {{ user }}</h3>
+
+    {% for social_account in social_accounts %}
+        <p>
+            You successfully connected your account with {{ social_account.provider }} on
+            {{ social_account.date_joined }}
+        </p>
+        <p>
+            Your last login was {{ social_account.last_login }}
+        </p>
+    {% endfor %}
 {% endblock %}

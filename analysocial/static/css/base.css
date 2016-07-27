@@ -1,6 +1,6 @@
 body {
     padding-top: 50px;
-    margin: 10px;
+    margin: 20px;
 }
 
 .my-form-control {
@@ -55,6 +55,7 @@ p.error_message {
     float: left;
     max-height: 44px;
     margin-top: -3px;
+    margin-left: 3px;
     margin-right: 4px;
 }
 

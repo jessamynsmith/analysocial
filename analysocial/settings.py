@@ -10,14 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
+import json
 import os
 
 from dateutil import parser as dateutil_parser
 import dj_database_url
+from email.utils import formataddr
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HOME_DIR = os.path.expanduser("~")
+
+
+ADMIN_DICT = {"admins": [{"name": "admin", "email": "example@example.com"}]}
+ADMIN_STRING = os.environ.get('ADMINS')
+if ADMIN_STRING:
+    ADMIN_DICT = json.loads(ADMIN_STRING)
+ADMINS = []
+for admin in ADMIN_DICT["admins"]:
+    ADMINS.append((admin["name"], admin["email"]))
 
 
 # Quick-start development settings - unsuitable for production
@@ -123,6 +135,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+ACCOUNT_EMAIL_VERIFICATION = False
 LOGIN_REDIRECT_URL = '/usage/'
 ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_PROVIDERS = {
@@ -142,7 +155,7 @@ SOCIALACCOUNT_PROVIDERS = {
              'gender',
              'updated_time'],
          'EXCHANGE_TOKEN': True,
-         'VERIFIED_EMAIL': False,
+         'VERIFIED_EMAIL': True,
          'VERSION': 'v2.4'}
 }
 
@@ -187,6 +200,19 @@ STATICFILES_DIRS = (
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+# If Heroku addons start using EMAIL_URL, switch to dj-email-url
+DEFAULT_FROM_EMAIL = formataddr(ADMINS[0])
+EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
+EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
+EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')
+EMAIL_HOST_PASSWORD = os.environ.get('MAILGUN_SMTP_PASSWORD')
+EMAIL_USE_TLS = True
+
+if not EMAIL_HOST_PASSWORD:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = os.path.join(HOME_DIR, 'analysocial', 'emails')
 
 
 DEPLOY_DATE = dateutil_parser.parse(os.environ.get('DEPLOY_DATE', '1970-01-01T00:00:00-0400'))

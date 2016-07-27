@@ -23,13 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HOME_DIR = os.path.expanduser("~")
 
 
-ADMIN_DICT = {"admins": [{"name": "admin", "email": "example@example.com"}]}
-ADMIN_STRING = os.environ.get('ADMINS')
-if ADMIN_STRING:
-    ADMIN_DICT = json.loads(ADMIN_STRING)
-ADMINS = []
-for admin in ADMIN_DICT["admins"]:
-    ADMINS.append((admin["name"], admin["email"]))
+ADMINS = [(
+    os.environ.get("ADMIN_NAME", 'admin'),
+    os.environ.get("ADMIN_EMAIL", "example@example.com")
+)]
 
 
 # Quick-start development settings - unsuitable for production

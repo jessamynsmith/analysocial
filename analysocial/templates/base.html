@@ -37,7 +37,11 @@
 
 <nav class="navbar navbar-default navbar-fixed-top my-navbar">
     <ul class="nav navbar-nav navbar-right">
-        {% if not user.is_anonymous %}
+        {% if user.is_anonymous %}
+            <li><a href="{% url 'account_login' %}">
+                Login
+            </a></li>
+        {% else %}
             <li><a href="{% url 'account_profile' %}">
                 Profile
             </a></li>

@@ -51,6 +51,13 @@ p.error_message {
     white-space: nowrap;
 }
 
+.brand img {
+    float: left;
+    max-height: 44px;
+    margin-top: -3px;
+    margin-right: 4px;
+}
+
 .navbar-nav > li, .navbar-nav {
     float: left !important;
 }

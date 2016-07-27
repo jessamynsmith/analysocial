@@ -13,6 +13,7 @@ NEW_RELIC_APP_NAME='analysocial' \
 ADMIN_EMAIL="jessamyn.smith@gmail.com" \
 ADMIN_NAME="Analysocial" \
 DJANGO_SETTINGS_MODULE=analysocial.settings \
+DJANGO_ENABLE_SSL=1 \
 DJANGO_SECRET_KEY="$SECRET" \
 DEPLOY_DATE="$DEPLOY_DATE" \
 > /dev/null

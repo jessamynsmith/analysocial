@@ -1,5 +1,5 @@
 """
-WSGI config for escape_from_fb project.
+WSGI config for analysocial project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -12,7 +12,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 from whitenoise.django import DjangoWhiteNoise
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "escape_from_fb.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "analysocial.settings")
 
 application = get_wsgi_application()
 application = DjangoWhiteNoise(application)

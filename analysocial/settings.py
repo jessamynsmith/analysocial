@@ -133,12 +133,14 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ACCOUNT_EMAIL_VERIFICATION = False
-LOGIN_REDIRECT_URL = '/usage/'
+LOGIN_REDIRECT_URL = '/posts_facebook/'
 ACCOUNT_LOGOUT_ON_GET = True
+FACEBOOK_API_VERSION = '2.7'
+# TODO Allauth should have better error message if api version is incorrect
 SOCIALACCOUNT_PROVIDERS = {
     'facebook':
         {'METHOD': 'oauth2',
-         'SCOPE': ['email', 'public_profile'],
+         'SCOPE': ['email', 'public_profile', 'user_posts'],
          'FIELDS': [
              'id',
              'email',
@@ -153,7 +155,8 @@ SOCIALACCOUNT_PROVIDERS = {
              'updated_time'],
          'EXCHANGE_TOKEN': True,
          'VERIFIED_EMAIL': True,
-         'VERSION': 'v2.4'}
+         'VERSION': 'v%s' % FACEBOOK_API_VERSION
+         }
 }
 
 

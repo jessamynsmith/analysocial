@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% load i18n static %}
+
+{% block title %}{% trans "Facebook Posts" %}{% endblock %}
+
+{% block content %}
+    {% for object in object_list %}
+        <div>{{ object }}</div>
+    {% endfor %}
+{% endblock %}

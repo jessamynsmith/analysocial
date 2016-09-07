@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from graph import models as graph_models
+
+
+admin.site.register(graph_models.Post)

@@ -1,9 +1,13 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
 
 import facebook
+
+from graph import models as graph_models
+from graph.helpers import retrieve_facebook_posts
 
 
 class PrivacyView(TemplateView):
@@ -26,13 +30,20 @@ class UserProfileView(TemplateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class UsageView(TemplateView):
-    template_name = 'graph/usage.html'
+class PostListView(ListView):
+    model = graph_models.Post
+
+    def get_queryset(self):
+        queryset = super(PostListView, self).get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
 
     def get_context_data(self, **kwargs):
-        context = super(UsageView, self).get_context_data(**kwargs)
-        social_accounts = self.request.user.socialaccount_set.all()
-        if social_accounts.count():
-            graph_api = facebook.GraphAPI(social_accounts[0].socialtoken_set.all()[0].token)
-            context['social_account'] = graph_api.get_connections('me', 'posts')
+        context = super(PostListView, self).get_context_data(**kwargs)
+        retrieve_facebook_posts(user=self.request.user, retrieve_all=False)
         return context
+
+
+@method_decorator(login_required, name='dispatch')
+class UsageView(TemplateView):
+    template_name = 'graph/usage.html'

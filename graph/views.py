@@ -1,13 +1,20 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, RedirectView, TemplateView
 
 import facebook
 
 from graph import models as graph_models
 from graph.helpers import retrieve_facebook_posts
+
+
+class IndexView(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('posts_facebook')
 
 
 class PrivacyView(TemplateView):

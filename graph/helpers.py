@@ -14,11 +14,11 @@ def retrieve_facebook_posts(user=None, retrieve_all=False):
         social_accounts = social_accounts.filter(user=user)
 
     for social_account in social_accounts:
-        if social_account.provider != "Facebook":
+        if social_account.provider.lower() != "facebook":
             continue
 
         access_token = social_account.socialtoken_set.all()[0].token
-        version = settings.FACEBOOK_NUMERIC_API_VERSION
+        version = settings.FACEBOOK_API_VERSION
         graph_api = facebook.GraphAPI(access_token=access_token, version=version)
         posts = graph_api.request('me/posts/')
 

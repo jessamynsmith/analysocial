@@ -37,7 +37,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
                             'q!sjix)23%elwso$yg03o=qqnixhd+vjf-=^(_y+^otp)ig!r2')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DJANGO_DEBUG', False)))
 
 ALLOWED_HOSTS = ['facebook-data.herokuapp.com']
 

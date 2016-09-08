@@ -1,0 +1,7 @@
+Hello {{ full_name }},
+{% block content %}{% endblock %}
+Cheers!
+{{ admin_name }}
+
+Check your posts: {{full_domain}}{% url 'posts_facebook' %}
+Found a bug? Have a feature request? Please let us know: https://github.com/jessamynsmith/analysocial/issues

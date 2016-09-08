@@ -204,6 +204,9 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # If Heroku addons start using EMAIL_URL, switch to dj-email-url
 DEFAULT_FROM_EMAIL = formataddr(ADMINS[0])
+REPLY_TO = (
+    os.environ.get('REPLY_TO_EMAIL', DEFAULT_FROM_EMAIL),
+)
 EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
 EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
 EMAIL_HOST_USER = os.environ.get('MAILGUN_SMTP_LOGIN')

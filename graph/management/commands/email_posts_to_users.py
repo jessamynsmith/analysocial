@@ -1,6 +1,7 @@
 import datetime
 from dateutil.relativedelta import relativedelta
 import pytz
+from smtplib import SMTPDataError
 
 from allauth.socialaccount.models import SocialAccount
 from django.core.management.base import BaseCommand
@@ -40,5 +41,8 @@ class Command(BaseCommand):
             subject = "Yesterday's Facebook post summary"
             plaintext = get_template('graph/email/%s.txt' % template_name)
             html = get_template('graph/email/%s.html' % template_name)
-            email_sender.send(social_account.user, subject, plaintext.render(context),
-                              html.render(context))
+            try:
+                email_sender.send(social_account.user, subject, plaintext.render(context),
+                                  html.render(context))
+            except SMTPDataError as e:
+                print(e)

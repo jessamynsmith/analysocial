@@ -39,7 +39,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DJANGO_DEBUG', False)))
 
-ALLOWED_HOSTS = ['analysocial.herokuapp.com']
+ALLOWED_HOSTS = ['analysocial.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition

@@ -58,6 +58,7 @@ class Command(BaseCommand):
             posts = graph_models.Post.objects.filter(user=social_account.user,
                                                      created_time__gte=start_timestamp,
                                                      created_time__lt=end_timestamp)
+            posts = posts.order_by('created_time')
 
             context = {
                 'full_name': social_account.user.get_full_name(),

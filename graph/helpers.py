@@ -23,12 +23,27 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
         while 'data' in posts:
             for post_data in posts['data']:
                 post_data['user'] = social_account.user
+                post = graph_models.Post(**post_data)
                 try:
-                    graph_models.Post.objects.create(**post_data)
+                    post.save()
                 except IntegrityError as e:
-                    if not ignore_errors and str(e).find('duplicate key value') >= 0:
-                        posts = {}
-                        break
+                    if str(e).find('duplicate key value') >= 0:
+                        if not ignore_errors:
+                            posts = {}
+                            break
+                    else:
+                        raise e
+
+                comments = graph_api.request('%s/comments/' % post_data['id'])
+                for comment_data in comments['data']:
+                    comment_data['post'] = post
+                    comment_data['from_json'] = comment_data.pop('from')
+                    comment = graph_models.Comment(**comment_data)
+                    try:
+                        comment.save()
+                    except IntegrityError as e:
+                        if not str(e).find('duplicate key value') >= 0:
+                            raise e
 
             if not retrieve_all or not posts:
                 break

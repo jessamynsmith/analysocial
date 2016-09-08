@@ -134,7 +134,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ACCOUNT_EMAIL_VERIFICATION = False
-LOGIN_REDIRECT_URL = '/posts_facebook/'
+LOGIN_REDIRECT_URL = '/facebook_posts/'
 ACCOUNT_LOGOUT_ON_GET = True
 FACEBOOK_API_VERSION = '2.7'
 # TODO Allauth should have better error message if api version is incorrect

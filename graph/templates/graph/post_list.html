@@ -5,17 +5,22 @@
 {% block title %}{% trans "Facebook Posts" %}{% endblock %}
 
 {% block content %}
+    <h4>Posts</h4>
     <div class="container">
         <div class="row">
             <div class="col-md-2"><h5>Created Date</h5></div>
             <div class="col-md-3"><h5>ID</h5></div>
+            <div class="col-md-3"><h5>Comments</h5></div>
             <div class="col-md-7"><h5>Message</h5></div>
         </div>
         {% for object in object_list %}
             <div class="row">
                 <div class="col-md-2">{{ object.created_time }}</div>
-                <div class="col-md-3">{{ object.id }}</div>
-                <div class="col-md-7">{{ object.message|truncatechars:100 }}</div>
+                <div class="col-md-3">
+                    <a href="{% url 'facebook_post' object.id %}">{{ object.id }}</a>
+                </div>
+                <div class="col-md-1">{{ object.comment_set.count }}</div>
+                <div class="col-md-6">{{ object.message|truncatechars:100 }}</div>
             </div>
         {% endfor %}
     </div>

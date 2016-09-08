@@ -33,6 +33,9 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                             break
                     else:
                         raise e
+                except Exception as e:
+                    print(post)
+                    raise e
 
                 comments = graph_api.request('%s/comments/' % post_data['id'])
                 for comment_data in comments['data']:
@@ -44,6 +47,9 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                     except IntegrityError as e:
                         if not str(e).find('duplicate key value') >= 0:
                             raise e
+                    except Exception as e:
+                        print(comment)
+                        raise e
 
             if not retrieve_all or not posts:
                 break

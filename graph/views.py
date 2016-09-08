@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, RedirectView, TemplateView
+from django.views.generic import DetailView, ListView, RedirectView, TemplateView
 
 from graph import models as graph_models
 from graph.helpers import retrieve_facebook_posts
@@ -11,7 +11,7 @@ from graph.helpers import retrieve_facebook_posts
 class IndexView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('posts_facebook')
+        return reverse('facebook_posts')
 
 
 class PrivacyView(TemplateView):
@@ -49,6 +49,16 @@ class PostListView(ListView):
         return context
 
     # TODO Add searching/sorting
+
+
+@method_decorator(login_required, name='dispatch')
+class PostDetailView(DetailView):
+    model = graph_models.Post
+
+
+@method_decorator(login_required, name='dispatch')
+class CommentDetailView(DetailView):
+    model = graph_models.Comment
 
 
 @method_decorator(login_required, name='dispatch')

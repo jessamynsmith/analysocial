@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load i18n static %}
+
+{% block title %}{% trans "Facebook Comment" %} {{ object.id }}{% endblock %}
+
+{% block content %}
+    <h4>Comment Details</h4>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"><h5>Created Date</h5></div>
+            <div class="col-md-10">{{ object.created_time }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>ID</h5></div>
+            <div class="col-md-10">{{ object.id }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>Message</h5></div>
+            <div class="col-md-10">{{ object.message }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>From</h5></div>
+            <div class="col-md-10">{{ object.from_json }}</div>
+        </div>
+    </div>
+
+    {% include 'snippets/pagination.html' %}
+{% endblock %}

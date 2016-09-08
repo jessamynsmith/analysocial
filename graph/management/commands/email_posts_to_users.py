@@ -67,7 +67,7 @@ class Command(BaseCommand):
                 'full_domain': helpers.get_full_domain(),
             }
             template_name = 'posts_notify'
-            subject = "Yesterday's Facebook post summary"
+            subject = "%s Facebook post summary" % posts_date
             plaintext = get_template('graph/email/%s.txt' % template_name)
             html = get_template('graph/email/%s.html' % template_name)
             csvfile = helpers.create_csv(posts.values())

@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.db import models
 from django.template.defaultfilters import truncatewords
-from django.conf import settings
 
 
 class Post(models.Model):

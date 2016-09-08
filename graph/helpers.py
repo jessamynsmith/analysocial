@@ -1,9 +1,7 @@
+import facebook
+from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.db import IntegrityError
-
-from allauth.socialaccount.models import SocialAccount
-
-import facebook
 
 from graph import models as graph_models
 

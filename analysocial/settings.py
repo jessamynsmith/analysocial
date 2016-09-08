@@ -12,11 +12,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import json
 import os
-
-from dateutil import parser as dateutil_parser
-import dj_database_url
 from email.utils import formataddr
 
+import dj_database_url
+from dateutil import parser as dateutil_parser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

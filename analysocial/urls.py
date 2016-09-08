@@ -15,6 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic.base import RedirectView
+
+
+favicon_view = RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)
+
 
 from graph import urls as graph_urls
 
@@ -22,5 +27,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
 
+    url(r'^favicon\.ico$', favicon_view),
     url(r'^', include(graph_urls)),
 ]

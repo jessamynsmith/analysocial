@@ -1,5 +1,7 @@
 {% extends "email/base.txt" %}
 
 {% block content %}
-You made {{ num_posts }} Facebook posts yesterday, {{ yesterday }}.
+You made {{ num_posts }} Facebook posts during {{ posts_date }}.
+
+Your list of posts is attached.
 {% endblock %}

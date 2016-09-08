@@ -5,7 +5,9 @@ django-allauth==0.27.0
 django-settings-context-processor==0.2
 facebook-sdk==2.0.0
 gunicorn==19.6.0
+mock==2.0.0
 oauthlib==1.1.2
+pbr==1.10.0
 psycopg2==2.6.2
 python-dateutil==2.5.3
 python3-openid==3.0.10
@@ -13,4 +15,5 @@ pytz==2016.6.1
 requests==2.10.0
 requests-oauthlib==0.6.2
 six==1.10.0
+unicodecsv==0.14.1
 whitenoise==3.2

@@ -45,8 +45,12 @@ class Command(BaseCommand):
             subject = "Yesterday's Facebook post summary"
             plaintext = get_template('graph/email/%s.txt' % template_name)
             html = get_template('graph/email/%s.html' % template_name)
+            csvfile = helpers.create_csv(posts.values())
+            attachments = [
+                ('facebook_posts_%s.csv' % yesterday, csvfile.getvalue().decode('utf-8'), 'text/csv')
+            ]
             try:
                 email_sender.send(social_account.user, subject, plaintext.render(context),
-                                  html.render(context))
+                                  html.render(context), attachments)
             except SMTPDataError as e:
                 print(e)

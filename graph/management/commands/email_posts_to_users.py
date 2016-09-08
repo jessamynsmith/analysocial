@@ -4,11 +4,12 @@ import pytz
 from smtplib import SMTPDataError
 
 from allauth.socialaccount.models import SocialAccount
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.template.loader import get_template
 
 from graph import models as graph_models
-from libs import email_sender
+from libs import email_sender, helpers
 
 
 class Command(BaseCommand):
@@ -34,8 +35,11 @@ class Command(BaseCommand):
                                                      created_time__lt=today_start)
 
             context = {
+                'full_name': social_account.user.get_full_name(),
                 'yesterday': yesterday,
                 'num_posts': len(posts),
+                'admin_name': settings.ADMINS[0][0],
+                'full_domain': helpers.get_full_domain(),
             }
             template_name = 'posts_notify'
             subject = "Yesterday's Facebook post summary"

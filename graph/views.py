@@ -39,6 +39,7 @@ class UserProfileView(TemplateView):
 @method_decorator(login_required, name='dispatch')
 class PostListView(ListView):
     model = graph_models.Post
+    paginate_by = 25
 
     def get_queryset(self):
         queryset = super(PostListView, self).get_queryset()
@@ -50,7 +51,7 @@ class PostListView(ListView):
         retrieve_facebook_posts(user=self.request.user, retrieve_all=False)
         return context
 
-    # TODO make view look nicer, add paging and sorting
+    # TODO Add searching/sorting
 
 
 @method_decorator(login_required, name='dispatch')

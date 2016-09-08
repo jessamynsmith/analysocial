@@ -42,13 +42,15 @@ class PostListView(ListView):
 
     def get_queryset(self):
         queryset = super(PostListView, self).get_queryset()
-        queryset = queryset.filter(user=self.request.user)
+        queryset = queryset.filter(user=self.request.user).order_by('-created_time')
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
         retrieve_facebook_posts(user=self.request.user, retrieve_all=False)
         return context
+
+    # TODO make view look nicer, add paging and sorting
 
 
 @method_decorator(login_required, name='dispatch')

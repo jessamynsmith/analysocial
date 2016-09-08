@@ -8,3 +8,5 @@ def update_user_email(request, sociallogin, **kwargs):
 
 
 allauth_signals.pre_social_login.connect(update_user_email)
+
+# TODO when new user signs up, add task to queue to retrieve all their posts

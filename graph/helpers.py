@@ -8,7 +8,7 @@ import facebook
 from graph import models as graph_models
 
 
-def retrieve_facebook_posts(user=None, retrieve_all=False):
+def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
     social_accounts = SocialAccount.objects.all()
     if user:
         social_accounts = social_accounts.filter(user=user)
@@ -28,11 +28,11 @@ def retrieve_facebook_posts(user=None, retrieve_all=False):
                 try:
                     graph_models.Post.objects.create(**post_data)
                 except IntegrityError as e:
-                    if str(e).find('duplicate key value') >= 0:
+                    if not ignore_errors and str(e).find('duplicate key value') >= 0:
                         posts = {}
                         break
 
-            if not retrieve_all:
+            if not retrieve_all or not posts:
                 break
 
             next_page = posts.get('paging', {}).get('next')

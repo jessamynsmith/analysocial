@@ -37,6 +37,8 @@ class Attachment(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post)
+    # Only set for comments on comments
+    comment = models.ForeignKey("Comment", null=True, blank=True, related_name='comment_set')
     id = models.TextField(primary_key=True)
     from_json = JSONField()
     created_time = models.DateTimeField()

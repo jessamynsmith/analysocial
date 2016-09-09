@@ -1,0 +1,23 @@
+<h4>Comments</h4>
+<div class="container">
+    {% if object.comment_set.count %}
+        <div class="row">
+            <div class="col-md-2"><h5>Created Date</h5></div>
+            <div class="col-md-3"><h5>ID</h5></div>
+            <div class="col-md-7"><h5>Message</h5></div>
+        </div>
+        {% for object in object.comment_set.all %}
+            <div class="row">
+                <div class="col-md-2">{{ object.created_time }}</div>
+                <div class="col-md-3">
+                    <a href="{% url 'facebook_comment' object.id %}">{{ object.id }}</a>
+                </div>
+                <div class="col-md-7">{{ object.message|truncatechars:100 }}</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="row">
+            <div class="col-md-2"><h5>No comments yet</h5></div>
+        </div>
+    {% endif %}
+</div>

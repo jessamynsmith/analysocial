@@ -37,6 +37,8 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                             attachment_data['post'] = post
                             attachment = graph_models.Attachment(**attachment_data)
                             attachment.save()
+                            # Only save first attachment, if it exists
+                            break
                     except Exception as e:
                         if not ignore_errors:
                             raise e

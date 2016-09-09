@@ -17,7 +17,7 @@ class Post(models.Model):
 
 
 class Attachment(models.Model):
-    post = models.ForeignKey(Post)
+    post = models.OneToOneField(Post)
     url = models.TextField()
     title = models.TextField()
     type = models.CharField(max_length=40)

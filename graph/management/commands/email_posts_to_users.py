@@ -58,13 +58,14 @@ class Command(BaseCommand):
             data = {
                 'posts': graph_models.Post.objects.filter(
                     user=social_account.user, created_time__gte=start_timestamp,
-                    created_time__lt=end_timestamp).order_by('created_time'),
+                    created_time__lt=end_timestamp).order_by('created_time').values(
+                    'created_time', 'story', 'message', 'attachment__url', 'attachment__title',
+                    'attachment__type', 'attachment__description'
+                ),
             }
             post_ids = data['posts'].values_list('id')
-            data['attachments'] = graph_models.Attachment.objects.filter(
-                post__in=post_ids).order_by('post__id')
             data['comments'] = graph_models.Comment.objects.filter(
-                post__in=post_ids).order_by('post__id')
+                post__in=post_ids).order_by('post__id').values()
 
             context = {
                 'full_name': social_account.user.get_full_name(),
@@ -80,7 +81,7 @@ class Command(BaseCommand):
 
             email_attachments = []
             for data_type in data:
-                csvfile = helpers.create_csv(data[data_type].values())
+                csvfile = helpers.create_csv(data[data_type])
                 csv_data = csvfile.getvalue().decode('utf-8')
                 email_attachments.append(['facebook_%s_%s.csv' % (data_type, posts_date), csv_data,
                                          'text/csv'])

@@ -8,13 +8,22 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            '--retrieve-all',
+            action='store_true',
+            dest='retrieve_all',
+            default=False,
+            help='Retrieve all posts.'
+        )
+
+        parser.add_argument(
             '--ignore-errors',
             action='store_true',
-            dest='ignore-errors',
+            dest='ignore_errors',
             default=False,
             help='Ignore any errors and continue retrieving posts.'
         )
 
     def handle(self, *args, **options):
-        ignore_errors = options['ignore-errors']
-        helpers.retrieve_facebook_posts(retrieve_all=True, ignore_errors=ignore_errors)
+        retrieve_all = options['retrieve_all']
+        ignore_errors = options['ignore_errors']
+        helpers.retrieve_facebook_posts(retrieve_all=retrieve_all, ignore_errors=ignore_errors)

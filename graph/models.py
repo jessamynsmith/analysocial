@@ -16,6 +16,25 @@ class Post(models.Model):
         return '%s: %s (%s - %s)' % (self.user, message, self.created_time, self.id)
 
 
+class Attachment(models.Model):
+    post = models.ForeignKey(Post)
+    url = models.TextField()
+    title = models.TextField()
+    type = models.CharField(max_length=40)
+    description = models.TextField()
+    media = JSONField(null=True, blank=True)
+    target = JSONField(null=True, blank=True)
+    description_tags = JSONField(null=True, blank=True)
+    subattachments = JSONField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('post', 'title')
+
+    def __str__(self):
+        title = truncatewords(self.title, 10)
+        return '%s: %s (%s)' % (self.post.user, title, self.url)
+
+
 class Comment(models.Model):
     post = models.ForeignKey(Post)
     id = models.CharField(max_length=80, primary_key=True)

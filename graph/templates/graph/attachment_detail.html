@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load i18n static %}
+
+{% block title %}{% trans "Facebook Attachment" %} {{ object.title }}{% endblock %}
+
+{% block content %}
+    <h4>Attachment Details</h4>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"><h5>Post</h5></div>
+            <div class="col-md-10">{{ object.post.id }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>Title</h5></div>
+            <div class="col-md-10">{{ object.title }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>URL</h5></div>
+            <div class="col-md-10">{{ object.url }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>Type</h5></div>
+            <div class="col-md-10">{{ object.type }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>Description</h5></div>
+            <div class="col-md-10">{{ object.description }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>Media</h5></div>
+            <div class="col-md-10">{{ object.media }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><h5>Target</h5></div>
+            <div class="col-md-10">{{ object.target }}</div>
+        </div>
+    </div>
+
+    {% include 'snippets/pagination.html' %}
+{% endblock %}

@@ -57,6 +57,11 @@ class PostDetailView(DetailView):
 
 
 @method_decorator(login_required, name='dispatch')
+class AttachmentDetailView(DetailView):
+    model = graph_models.Attachment
+
+
+@method_decorator(login_required, name='dispatch')
 class CommentDetailView(DetailView):
     model = graph_models.Comment
 

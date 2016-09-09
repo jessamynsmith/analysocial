@@ -48,8 +48,6 @@ class PostListView(ListView):
         retrieve_facebook_posts(user=self.request.user, retrieve_all=False)
         return context
 
-    # TODO Add searching/sorting
-
 
 @method_decorator(login_required, name='dispatch')
 class PostDetailView(DetailView):

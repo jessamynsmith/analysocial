@@ -53,17 +53,23 @@ class Command(BaseCommand):
                                                     day=yesterday.day, hour=0, minute=0, second=0,
                                                     tzinfo=pytz.UTC)
                 end_timestamp = start_timestamp + relativedelta(days=1)
-                posts_date = start_timestamp.year
+                posts_date = start_timestamp.date()
 
-            posts = graph_models.Post.objects.filter(user=social_account.user,
-                                                     created_time__gte=start_timestamp,
-                                                     created_time__lt=end_timestamp)
-            posts = posts.order_by('created_time')
+            data = {
+                'posts': graph_models.Post.objects.filter(
+                    user=social_account.user, created_time__gte=start_timestamp,
+                    created_time__lt=end_timestamp).order_by('created_time'),
+            }
+            post_ids = data['posts'].values_list('id')
+            data['attachments'] = graph_models.Attachment.objects.filter(
+                post__in=post_ids).order_by('post__id')
+            data['comments'] = graph_models.Comment.objects.filter(
+                post__in=post_ids).order_by('post__id')
 
             context = {
                 'full_name': social_account.user.get_full_name(),
                 'posts_date': posts_date,
-                'num_posts': len(posts),
+                'num_posts': len(data['posts']),
                 'admin_name': settings.ADMINS[0][0],
                 'full_domain': helpers.get_full_domain(),
             }
@@ -71,13 +77,15 @@ class Command(BaseCommand):
             subject = "%s Facebook post summary" % posts_date
             plaintext = get_template('graph/email/%s.txt' % template_name)
             html = get_template('graph/email/%s.html' % template_name)
-            csvfile = helpers.create_csv(posts.values())
-            csv_data = csvfile.getvalue().decode('utf-8')
-            attachments = [
-                ('facebook_posts_%s.csv' % posts_date, csv_data, 'text/csv')
-            ]
+
+            email_attachments = []
+            for data_type in data:
+                csvfile = helpers.create_csv(data[data_type].values())
+                csv_data = csvfile.getvalue().decode('utf-8')
+                email_attachments.append(['facebook_%s_%s.csv' % (data_type, posts_date), csv_data,
+                                         'text/csv'])
             try:
                 email_sender.send(social_account.user, subject, plaintext.render(context),
-                                  html.render(context), attachments)
+                                  html.render(context), email_attachments)
             except SMTPDataError as e:
                 print(e)

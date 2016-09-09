@@ -1,46 +1,48 @@
 <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">
 
-  <div style="padding-top: 11px; padding-bottom: 14px; color: #355E3B; border-bottom: 1px #D3D3D3 solid;">
-    <img style="display: block; float:left; margin-right: 4px; max-height: 44px;"
-         src="{{ full_domain }}/static/img/analysocial.png" alt="logo">
+    <div style="padding-top: 11px; padding-bottom: 14px; color: #355E3B;">
+        <img style="display: block; float:left; margin-right: 4px; max-height: 44px;"
+             src="{{ full_domain }}/static/img/analysocial.png" alt="logo">
         <span style="display: inline-block;">
         <span style="font-size: 30px; padding-top: 2px;">analysocial</span><br>
         </span>
-  </div>
+    </div>
 
-  <br>
+    <hr>
 
-  <p>
-    Hello {{ full_name }},
-    <br><br>
-    {% block content %}{% endblock %}
-    <br><br>
-    Cheers!
     <br>
-    {{ admin_name }}
-  </p>
-  <br>
 
-  <hr>
+    <p>
+        Hello {{ full_name }},
+        <br><br>
+        {% block content %}{% endblock %}
+        <br><br>
+        Cheers!
+        <br>
+        {{ admin_name }}
+    </p>
+    <br>
 
-  <div style="width: 100%; padding: 8px; text-align: center;">
+    <hr>
+
+    <div style="width: 100%; padding: 8px; text-align: center;">
 
   <span
-    style="width: auto; display: inline-block; padding: 6px 12px; background-color: #355E3B; border-radius: 3px; cursor: pointer;">
+      style="width: auto; display: inline-block; padding: 6px 12px; background-color: #355E3B; border-radius: 3px; cursor: pointer;">
     <a style="text-decoration: none; color: #ffffff;" target="_blank"
        href="{{ full_domain }}{% url 'facebook_posts' %}">
       Check your posts
     </a>
   </span>
 
-    <div style="margin: 8px;">
-      Found a bug? Have a feature request?
-      <br>
-      Please
-      <a href="https://github.com/jessamynsmith/analysocial/issues" target="_blank">
-        let us know</a>.
-    </div>
+        <div style="margin: 8px;">
+            Found a bug? Have a feature request?
+            <br>
+            Please
+            <a href="https://github.com/jessamynsmith/analysocial/issues" target="_blank">
+                let us know</a>.
+        </div>
 
-  </div>
+    </div>
 
 </div>

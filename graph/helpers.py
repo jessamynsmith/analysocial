@@ -45,6 +45,7 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                         attachment.save()
                     except IntegrityError as e:
                         if not str(e).find('duplicate key value') >= 0:
+                            print(attachment_data)
                             raise e
                     except Exception as e:
                         print(attachment_data)
@@ -59,6 +60,7 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                         comment.save()
                     except IntegrityError as e:
                         if not str(e).find('duplicate key value') >= 0:
+                            print(comment_data)
                             raise e
                     except Exception as e:
                         print(comment_data)

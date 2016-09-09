@@ -37,7 +37,7 @@ class Attachment(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post)
-    id = models.CharField(max_length=80, primary_key=True)
+    id = models.TextField(primary_key=True)
     from_json = JSONField()
     created_time = models.DateTimeField()
     message = models.TextField()

@@ -40,9 +40,8 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                 attachments = graph_api.request('%s/attachments/' % post_data['id'])
                 for attachment_data in attachments['data']:
                     attachment_data['post'] = post
-                    print(attachment_data)
-                    attachment = graph_models.Attachment(**attachment_data)
                     try:
+                        attachment = graph_models.Attachment(**attachment_data)
                         attachment.save()
                     except IntegrityError as e:
                         if not str(e).find('duplicate key value') >= 0:
@@ -55,8 +54,8 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                 for comment_data in comments['data']:
                     comment_data['post'] = post
                     comment_data['from_json'] = comment_data.pop('from')
-                    comment = graph_models.Comment(**comment_data)
                     try:
+                        comment = graph_models.Comment(**comment_data)
                         comment.save()
                     except IntegrityError as e:
                         if not str(e).find('duplicate key value') >= 0:

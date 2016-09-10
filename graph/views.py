@@ -115,6 +115,21 @@ class UsageView(TemplateView):
             'median': helpers.get_median(post_counts_by_day),
             'mode': helpers.get_mode(post_counts_by_day),
         }
+
+        comments = graph_models.Comment.objects.filter(post__user=self.request.user)
+        comments_by_post = helpers.comments_by_post(comments)
+        comment_counts_by_post = [day[1] for day in comments_by_post]
+        six_months_ago = datetime.date.today() - relativedelta.relativedelta(months=6)
+        last_6_months = [day[1] for day in comments_by_post.filter(
+            post__created_time__gt=six_months_ago)]
+        context['comments_by_post'] = {
+            'average_all_time': helpers.get_mean(comment_counts_by_post),
+            'average_6_months': helpers.get_mean(last_6_months),
+            'maximum': comments_by_post.last(),
+            'median': helpers.get_median(comment_counts_by_post),
+            'mode': helpers.get_mode(comment_counts_by_post),
+        }
+
         return context
 
 

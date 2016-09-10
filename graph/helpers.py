@@ -60,6 +60,12 @@ def posts_by_year(posts):
     return _convert_to_date(posts)
 
 
+def comments_by_post(comments):
+    comments = comments.values('post').annotate(total=Count('id')).order_by('total')
+    comments = comments.values_list('post', 'total')
+    return comments
+
+
 def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
     social_accounts = SocialAccount.objects.all()
     if user:

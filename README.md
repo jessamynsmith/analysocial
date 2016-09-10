@@ -101,6 +101,7 @@ To push a specific branch to Heroku:
 
 TODO
 
+* Add view of top 10 posts
 * Analyze words in posts
 * Searching/sorting on posts view page
 * CSV download from site

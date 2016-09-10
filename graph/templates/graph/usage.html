@@ -72,6 +72,35 @@
                 <td>{{ posts_by_day.mode|default:"" }}</td>
             </tr>
         </table>
+
+        <table class="table-condensed">
+            <tr>
+                <th colspan="2">Comments Per Post Statistics</th>
+            </tr>
+            <tr>
+                <td>Average (Last 6 Months):</td>
+                <td>{{ comments_by_post.average_6_months|default:"" }}</td>
+            </tr>
+            <tr>
+                <td>Average (All Time):</td>
+                <td>{{ comments_by_post.average_all_time|default:"" }}</td>
+            </tr>
+            <tr>
+                <td>Maximum:</td>
+                <td>
+                    {{ comments_by_post.maximum.1|default:"" }}
+                    (<a href="{% url 'facebook_post' comments_by_post.maximum.0 %}">{{ comments_by_post.maximum.0 }}</a>)
+                </td>
+            </tr>
+            <tr>
+                <td>Median:</td>
+                <td>{{ comments_by_post.median|default:"" }}</td>
+            </tr>
+            <tr>
+                <td>Mode:</td>
+                <td>{{ comments_by_post.mode|default:"" }}</td>
+            </tr>
+        </table>
     </div>
 
     {% for graph_type in graph_types %}

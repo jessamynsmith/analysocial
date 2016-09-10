@@ -219,6 +219,9 @@ if not EMAIL_HOST_PASSWORD:
     EMAIL_FILE_PATH = os.path.join(HOME_DIR, 'analysocial', 'emails')
 
 
+FACEBOOK_URL = 'https://www.facebook.com'
+
+
 DEPLOY_DATE = dateutil_parser.parse(os.environ.get('DEPLOY_DATE', '1970-01-01T00:00:00-0400'))
 VERSION = '0.1'
-TEMPLATE_VISIBLE_SETTINGS = ['DEPLOY_DATE', 'VERSION']
+TEMPLATE_VISIBLE_SETTINGS = ['DEPLOY_DATE', 'VERSION', 'FACEBOOK_URL']

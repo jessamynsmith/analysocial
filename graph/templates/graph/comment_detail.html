@@ -9,19 +9,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2"><h5>Post</h5></div>
-            <div class="col-md-10">{{ object.post.id }}</div>
+            <div class="col-md-10">
+                <a target="_blank"
+                   href="{{ FACEBOOK_URL }}/{{ object.post.id }}">{{ object.post.id }}</a>
+            </div>
         </div>
+        {% if object.comment %}
+            <div class="row">
+                <div class="col-md-2"><h5>Comment</h5></div>
+                <div class="col-md-10">
+                    <a target="_blank"
+                       href="{{ FACEBOOK_URL }}/{{ object.comment.id }}">{{ object.comment.id }}</a>
+                </div>
+            </div>
+        {% endif %}
         <div class="row">
-            <div class="col-md-2"><h5>Comment</h5></div>
-            <div class="col-md-10">{{ object.comment.id }}</div>
+            <div class="col-md-2"><h5>ID</h5></div>
+            <div class="col-md-10">
+                <a target="_blank" href="{{ FACEBOOK_URL }}/{{ object.id }}">{{ object.id }}</a>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-2"><h5>Created Date</h5></div>
             <div class="col-md-10">{{ object.created_time }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2"><h5>ID</h5></div>
-            <div class="col-md-10">{{ object.id }}</div>
         </div>
         <div class="row">
             <div class="col-md-2"><h5>Message</h5></div>

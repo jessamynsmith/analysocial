@@ -6,13 +6,15 @@
             <div class="col-md-3"><h5>ID</h5></div>
             <div class="col-md-7"><h5>Message</h5></div>
         </div>
-        {% for object in object.comment_set.all %}
+        {% for comment in object.comment_set.all %}
             <div class="row">
-                <div class="col-md-2">{{ object.created_time }}</div>
-                <div class="col-md-3">
-                    <a href="{% url 'facebook_comment' object.id %}">{{ object.id }}</a>
+                <div class="col-md-2">
+                    <a href="{% url 'facebook_comment' comment.id %}">{{ comment.created_time }}</a>
                 </div>
-                <div class="col-md-7">{{ object.message|truncatechars:100 }}</div>
+                <div class="col-md-3">
+                    <a target="_blank" href="{{ FACEBOOK_URL }}/{{ comment.id }}">{{ comment.id }}</a>
+                </div>
+                <div class="col-md-7">{{ comment.message|truncatechars:100 }}</div>
             </div>
         {% endfor %}
     {% else %}

@@ -13,34 +13,43 @@
         </div>
         <div class="row">
             <div class="col-md-2"><h5>ID</h5></div>
-            <div class="col-md-10">{{ object.id }}</div>
+            <div class="col-md-10">
+                <a target="_blank" href="{{ FACEBOOK_URL }}/{{ object.id }}">{{ object.id }}</a>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-2"><h5>Message</h5></div>
-            <div class="col-md-10">{{ object.message }}</div>
+            <div class="col-md-10">
+                {% if object.message|slice:":4" == 'http' %}
+                    <a target="_blank" href="{{ object.message }}">{{ object.message }}</a>
+                {% else %}
+                    {{ object.message }}
+                {% endif %}
+            </div>
         </div>
     </div>
 
-    <h4>Attachments</h4>
+    <h4>Attachment</h4>
     <div class="container">
-        {% if object.attachment_set.count %}
+        {% if object.has_attachment %}
             <div class="row">
                 <div class="col-md-2"><h5>Title</h5></div>
-                <div class="col-md-3"><h5>Type</h5></div>
-                <div class="col-md-7"><h5>Url</h5></div>
+                <div class="col-md-10">{{ object.attachment.title }}</div>
             </div>
-            {% for object in object.attachment_set.all %}
-                <div class="row">
-                    <div class="col-md-3">{{ object.title }}</div>
-                    <div class="col-md-2">
-                        <a href="{% url 'facebook_attachment' object.id %}">{{ object.type }}</a>
-                    </div>
-                    <div class="col-md-7">{{ object.url|truncatechars:100 }}</div>
+            <div class="row">
+                <div class="col-md-2"><h5>Type</h5></div>
+                <div class="col-md-10">{{ object.attachment.type }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"><h5>Url</h5></div>
+                <div class="col-md-10">
+                    <a target="_blank"
+                       href="{{ object.attachment.url }}">{{ object.attachment.url }}</a>
                 </div>
-            {% endfor %}
+            </div>
         {% else %}
             <div class="row">
-                <div class="col-md-12"><h5>No attachments found.</h5></div>
+                <div class="col-md-12"><h5>No attachment found.</h5></div>
             </div>
         {% endif %}
     </div>

@@ -11,6 +11,9 @@ class Post(models.Model):
     message = models.TextField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
+    def has_attachment(self):
+        return self.attachment is not None
+
     def __str__(self):
         message = truncatewords(self.message, 10)
         return '%s: %s (%s - %s)' % (self.user, message, self.created_time, self.id)

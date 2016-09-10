@@ -63,6 +63,15 @@ h4 .btn {
     margin-top: -8px;
 }
 
+.title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.row {
+    padding-top: 3px;
+}
+
 .overlay-content-wrapper .overlay-close {
     color: white;
 }

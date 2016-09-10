@@ -2,9 +2,9 @@
 <div class="container">
     {% if object.comment_set.count %}
         <div class="row">
-            <div class="col-md-2"><h5>Created Date</h5></div>
-            <div class="col-md-3"><h5>ID</h5></div>
-            <div class="col-md-7"><h5>Message</h5></div>
+            <div class="col-md-2"><span class="title">Created Date</span></div>
+            <div class="col-md-3"><span class="title">ID</span></div>
+            <div class="col-md-7"><span class="title">Message</span></div>
         </div>
         {% for comment in object.comment_set.all %}
             <div class="row">
@@ -19,7 +19,7 @@
         {% endfor %}
     {% else %}
         <div class="row">
-            <div class="col-md-12"><h5>No comments yet</h5></div>
+            <div class="col-md-12"><span class="title">No comments yet</span></div>
         </div>
     {% endif %}
 </div>

@@ -15,11 +15,11 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-2"><h5>Created Date</h5></div>
-            <div class="col-md-3"><h5>ID</h5></div>
-            <div class="col-md-1"><h5>Attachment</h5></div>
-            <div class="col-md-1"><h5>Comments</h5></div>
-            <div class="col-md-5"><h5>Message</h5></div>
+            <div class="col-md-2"><span class="title">Created Date</span></div>
+            <div class="col-md-3"><span class="title">ID</span></div>
+            <div class="col-md-1"><span class="title">Attachment</span></div>
+            <div class="col-md-1"><span class="title">Comments</span></div>
+            <div class="col-md-5"><span class="title">Message</span></div>
         </div>
         {% if object_list.count %}
             {% for object in object_list %}
@@ -37,7 +37,7 @@
             {% endfor %}
         {% else %}
             <div class="row">
-                <div class="col-md-12"><h5>No posts found. Try pressing the Sync button above</h5></div>
+                <div class="col-md-12"><span class="title">No posts found. Try pressing the Sync button above</span></div>
             </div>
         {% endif %}
     </div>

@@ -101,7 +101,6 @@ To push a specific branch to Heroku:
 
 TODO
 
-* Graph of posts by day (by month, by year)
 * Analyze words in posts
 * Searching/sorting on posts view page
 * CSV download from site

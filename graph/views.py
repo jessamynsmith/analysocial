@@ -91,8 +91,7 @@ class UsageView(TemplateView):
         posts_by_day = helpers.posts_by_day(posts)
         post_counts_by_day = [day[1] for day in posts_by_day]
         six_months_ago = datetime.date.today() - relativedelta.relativedelta(months=6)
-        last_6_months = helpers.values_for_timespan(posts_by_day, six_months_ago)
-        last_6_months = [day[1] for day in last_6_months]
+        last_6_months = [day[1] for day in posts_by_day.filter(created_time__gt=six_months_ago)]
         posts_by_count = sorted(post_counts_by_day)
         context['posts_by_day'] = {
             'average_all_time': helpers.get_mean(post_counts_by_day),

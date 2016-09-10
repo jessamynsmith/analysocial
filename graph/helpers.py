@@ -42,16 +42,6 @@ def posts_by_day(posts):
     return posts
 
 
-def values_for_timespan(values, timestamp):
-    """ Assume values sorted from smallest to largest """
-    index = 0
-    for i, value in enumerate(values):
-        if value[0] > timestamp:
-            index = i
-            break
-    return values[index:]
-
-
 def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
     social_accounts = SocialAccount.objects.all()
     if user:

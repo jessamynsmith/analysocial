@@ -5,75 +5,66 @@
 {% block title %}{% trans "Usage" %}{% endblock %}
 
 {% block content %}
-  <div>
-    <select id="id_select_statistics">
-      <option value="statistics">Statistics</option>
+    <div>
+        <select id="id_select_statistics">
+            <option value="statistics">Statistics</option>
+            {% for graph_type in graph_types %}
+                <option value="{{ graph_type.0 }}">{{ graph_type.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div id="id_statistics" class="statistics">
+        <h4>Statistics for {{ user.get_full_name }}</h4>
+
+        <table class="table-condensed">
+            <tr>
+                <th colspan="2">General Statistics</th>
+            </tr>
+            <tr>
+                <td>Total Number:</td>
+                <td>{{ posts|length }}</td>
+            </tr>
+            <tr>
+                <td>Most Recent:</td>
+                <td>{{ posts|last }}</td>
+            </tr>
+            <tr>
+                <td>First:</td>
+                <td>{{ posts|first }}</td>
+            </tr>
+        </table>
+
+        <table class="table-condensed">
+            <tr>
+                <th colspan="2">Posts Per Day Statistics</th>
+            </tr>
+            <tr>
+                <td>Average (Last 6 Months):</td>
+                <td>{{ posts_by_day.average_6_months }}</td>
+            </tr>
+            <tr>
+                <td>Average (All Time):</td>
+                <td>{{ posts_by_day.average_all_time|default:"" }}</td>
+            </tr>
+            <tr>
+                <td>Maximum:</td>
+                <td>{{ posts_by_day.maximum|default:"" }}</td>
+            </tr>
+            <tr>
+                <td>Median:</td>
+                <td>{{ posts_by_day.median|default:"" }}</td>
+            </tr>
+            <tr>
+                <td>Mode:</td>
+                <td>{{ posts_by_day.mode|default:"" }}</td>
+            </tr>
+        </table>
+    </div>
+
     {% for graph_type in graph_types %}
-      <option value="{{ graph_type.0 }}">{{ graph_type.1 }}</option>
+        <div id="id_{{ graph_type.0 }}" class="statistics"></div>
     {% endfor %}
-  </select>
-  </div>
-
-  <div id="id_statistics" class="statistics">
-    <h4>Statistics for {{ user.get_full_name }}</h4>
-
-    <table class="table-condensed">
-      <tr>
-        <th colspan="2">General Statistics</th>
-      </tr>
-      <tr>
-        <td>Total Number:</td>
-        <td>{{ posts|length }}</td>
-      </tr>
-      <tr>
-        <td>Most Recent:</td>
-        <td>{{ posts|last }}</td>
-      </tr>
-      <tr>
-        <td>First:</td>
-        <td>{{ posts|first }}</td>
-      </tr>
-    </table>
-
-    <table class="table-condensed">
-      <tr>
-        <th colspan="2">Posts Per Day Statistics</th>
-      </tr>
-      <tr>
-        <td>Average (Last 6 Months):</td>
-        <td>{{ posts_by_day.average_6_months }}</td>
-      </tr>
-      <tr>
-        <td>Average (All Time):</td>
-        <td>{{ posts_by_day.average_all_time|default:"" }}</td>
-      </tr>
-      <tr>
-        <td>Maximum:</td>
-        <td>{{ posts_by_day.maximum|default:"" }}</td>
-      </tr>
-      <tr>
-        <td>Median:</td>
-        <td>{{ posts_by_day.median|default:"" }}</td>
-      </tr>
-      <tr>
-        <td>Mode:</td>
-        <td>{{ posts_by_day.mode|default:"" }}</td>
-      </tr>
-    </table>
-  </div>
-
-  {% for graph_type in graph_types %}
-    <div id="id_{{ graph_type.0 }}" class="statistics"></div>
-  {% endfor %}
-
-  <div class="statistics cycle_length_frequency_error cycle_length_history_error">
-    Cycle Graphs require menstrual data to calculate.
-    Would you like to <a href="{% url 'facebook_posts' %}">enter some periods</a>?
-  </div>
-  <div class="statistics qigong_cycles_error">
-    Qigong Cycles require a birth date to calculate.
-    Would you like to <a href="{% url 'account_profile' %}">add a birth date</a> to your profile?
-  </div>
 
 {% endblock %}
 

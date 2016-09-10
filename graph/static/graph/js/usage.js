@@ -46,6 +46,10 @@ var posts_by_month = function(data) {
     posts_by_time(data, '#id_posts_by_month', 'Posts By Month');
 };
 
+var posts_by_year = function(data) {
+    posts_by_time(data, '#id_posts_by_year', 'Posts By Year');
+};
+
 var updateView = function() {
     $('.statistics').hide();
     var viewType = $('#id_select_statistics').val();

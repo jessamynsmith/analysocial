@@ -35,19 +35,29 @@ def get_mode(values):
     return mode
 
 
-def posts_by_day(posts):
-    posts = posts.extra({'created_day': "date(created_time)"})
-    posts = posts.values('created_day').annotate(total=Count('id')).order_by('created_day')
-    posts = posts.values_list('created_day', 'total')
+def _convert_to_date(values):
+    return [[value[0].date(), value[1]] for value in values]
+
+
+def posts_by_time_increment(posts, extra_text):
+    posts = posts.extra({'created': extra_text})
+    posts = posts.values('created').annotate(total=Count('id')).order_by('created')
+    posts = posts.values_list('created', 'total')
     return posts
+
+
+def posts_by_day(posts):
+    return posts_by_time_increment(posts, "date(created_time)")
 
 
 def posts_by_month(posts):
-    posts = posts.extra({'created_month': "date_trunc('month', created_time)"})
-    posts = posts.values('created_month').annotate(total=Count('id')).order_by('created_month')
-    posts = posts.values_list('created_month', 'total')
-    posts = [[post[0].date(), post[1]] for post in posts]
-    return posts
+    posts = posts_by_time_increment(posts, "date_trunc('month', created_time)")
+    return _convert_to_date(posts)
+
+
+def posts_by_year(posts):
+    posts = posts_by_time_increment(posts, "date_trunc('year', created_time)")
+    return _convert_to_date(posts)
 
 
 def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):

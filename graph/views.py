@@ -56,8 +56,11 @@ class PostListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
-        helpers.retrieve_facebook_posts(user=self.request.user)
         return context
+
+    def post(self, request, *args, **kwargs):
+        helpers.retrieve_facebook_posts(user=self.request.user, ignore_errors=True)
+        return self.get(request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')

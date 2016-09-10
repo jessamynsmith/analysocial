@@ -5,7 +5,14 @@
 {% block title %}{% trans "Facebook Posts" %}{% endblock %}
 
 {% block content %}
-    <h4>Posts</h4>
+    <form method="post">
+        {% csrf_token %}
+        <h4>
+            <span>Posts</span>
+            <button type="submit" class="btn btn-primary pull-right">Sync</button>
+        </h4>
+    </form>
+
     <div class="container">
         <div class="row">
             <div class="col-md-2"><h5>Created Date</h5></div>
@@ -14,17 +21,23 @@
             <div class="col-md-1"><h5>Comments</h5></div>
             <div class="col-md-5"><h5>Message</h5></div>
         </div>
-        {% for object in object_list %}
-            <div class="row">
-                <div class="col-md-2">{{ object.created_time }}</div>
-                <div class="col-md-3">
-                    <a href="{% url 'facebook_post' object.id %}">{{ object.id }}</a>
+        {% if object_list.count %}
+            {% for object in object_list %}
+                <div class="row">
+                    <div class="col-md-2">{{ object.created_time }}</div>
+                    <div class="col-md-3">
+                        <a href="{% url 'facebook_post' object.id %}">{{ object.id }}</a>
+                    </div>
+                    <div class="col-md-1">{{ object.attachment_set.count }}</div>
+                    <div class="col-md-1">{{ object.comment_set.count }}</div>
+                    <div class="col-md-5">{{ object.message|truncatechars:100 }}</div>
                 </div>
-                <div class="col-md-1">{{ object.attachment_set.count }}</div>
-                <div class="col-md-1">{{ object.comment_set.count }}</div>
-                <div class="col-md-5">{{ object.message|truncatechars:100 }}</div>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col-md-12"><h5>No posts found. Try pressing Sync above</h5></div>
             </div>
-        {% endfor %}
+        {% endif %}
     </div>
 
     {% include 'snippets/pagination.html' %}

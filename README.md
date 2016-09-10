@@ -106,3 +106,4 @@ TODO
 * Searching/sorting on posts view page
 * CSV download from site
 * Button for user to sync posts
+* Link to facebook items

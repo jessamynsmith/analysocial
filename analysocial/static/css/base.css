@@ -58,3 +58,7 @@ p.error_message {
     padding-top: 10px;
     width: 90%;
 }
+
+h4 .btn {
+    margin-top: -8px;
+}

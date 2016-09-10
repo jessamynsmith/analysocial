@@ -105,3 +105,4 @@ TODO
 * Searching/sorting on posts view page
 * CSV download from site
 * Sync historical posts for new users (use RQ?)
+* Email admin when new user signs up

@@ -23,7 +23,7 @@
             </tr>
             <tr>
                 <td>Total Number:</td>
-                <td>{{ posts|length }}</td>
+                <td>{{ num_posts }}</td>
             </tr>
             <tr>
                 <td>Most Recent:</td>
@@ -33,6 +33,18 @@
                 <td>First:</td>
                 <td>{{ posts|first }}</td>
             </tr>
+            <tr>
+                <td>Percentage Original Posts:</td>
+                <td>{{ original_posts }}%</td>
+            </tr>
+            <tr>
+                <td>Percentage Shares with Commentary:</td>
+                <td>{{ shared_with_commentary }}%</td>
+            </tr>
+            <tr>
+                <td>Percentage Blank Shares:</td>
+                <td>{{ blank_shares }}%</td>
+            </tr>
         </table>
 
         <table class="table-condensed">
@@ -41,7 +53,7 @@
             </tr>
             <tr>
                 <td>Average (Last 6 Months):</td>
-                <td>{{ posts_by_day.average_6_months }}</td>
+                <td>{{ posts_by_day.average_6_months|default:"" }}</td>
             </tr>
             <tr>
                 <td>Average (All Time):</td>

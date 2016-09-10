@@ -90,7 +90,17 @@ class UsageView(TemplateView):
             ['posts_by_year', 'Posts By Year'],
         ]
         posts = graph_models.Post.objects.all().order_by('created_time')
+        num_posts = posts.count()
+        original_posts = posts.filter(attachment__isnull=True).count()
+        shared_posts = posts.filter(attachment__isnull=False).exclude(
+            message__exact='').count()
+        blank_shares = posts.filter(attachment__isnull=False).filter(
+            message__exact='').count()
         context['posts'] = list(posts.values_list('created_time', flat=True))
+        context['num_posts'] = num_posts
+        context['original_posts'] = round((original_posts * 100) / num_posts)
+        context['shared_with_commentary'] = round((shared_posts * 100) / num_posts)
+        context['blank_shares'] = round((blank_shares * 100) / num_posts)
 
         posts = graph_models.Post.objects.filter(user=self.request.user)
         posts_by_day = helpers.posts_by_day(posts)

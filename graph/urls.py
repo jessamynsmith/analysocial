@@ -19,4 +19,5 @@ urlpatterns = [
 
     url(r'^usage/$', graph_views.UsageView.as_view(), name="usage"),
     url(r'^usage/posts_by_day/$', graph_views.PostsByDayView.as_view(), name="posts_by_day"),
+    url(r'^usage/posts_by_month/$', graph_views.PostsByMonthView.as_view(), name="posts_by_month"),
 ]

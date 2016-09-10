@@ -42,6 +42,14 @@ def posts_by_day(posts):
     return posts
 
 
+def posts_by_month(posts):
+    posts = posts.extra({'created_month': "date_trunc('month', created_time)"})
+    posts = posts.values('created_month').annotate(total=Count('id')).order_by('created_month')
+    posts = posts.values_list('created_month', 'total')
+    posts = [[post[0].date(), post[1]] for post in posts]
+    return posts
+
+
 def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
     social_accounts = SocialAccount.objects.all()
     if user:

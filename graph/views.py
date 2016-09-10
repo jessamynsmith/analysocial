@@ -86,6 +86,7 @@ class UsageView(TemplateView):
         context = super(UsageView, self).get_context_data(**kwargs)
         context['graph_types'] = [
             ['posts_by_day', 'Posts By Day'],
+            ['posts_by_month', 'Posts By Month'],
         ]
         posts = graph_models.Post.objects.all().order_by('created_time')
         context['posts'] = list(posts.values_list('created_time', flat=True))
@@ -112,5 +113,15 @@ class PostsByDayView(JsonView):
         posts = graph_models.Post.objects.filter(user=self.request.user)
         context = {
             'data': list(helpers.posts_by_day(posts))
+        }
+        return context
+
+
+@method_decorator(login_required, name='dispatch')
+class PostsByMonthView(JsonView):
+    def get_context_data(self, **kwargs):
+        posts = graph_models.Post.objects.filter(user=self.request.user)
+        context = {
+            'data': list(helpers.posts_by_month(posts))
         }
         return context

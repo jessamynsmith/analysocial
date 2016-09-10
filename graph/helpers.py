@@ -35,11 +35,10 @@ def get_mode(values):
     return mode
 
 
-def posts_by_day():
-    posts = graph_models.Post.objects.extra({'created_day': "date(created_time)"})
-    posts = posts.values('created_day').annotate(total=Count('id'))
+def posts_by_day(posts):
+    posts = posts.extra({'created_day': "date(created_time)"})
+    posts = posts.values('created_day').annotate(total=Count('id')).order_by('created_day')
     posts = posts.values_list('created_day', 'total')
-    posts = sorted(list(posts), key=lambda post: post[0])
     return posts
 
 

@@ -87,7 +87,8 @@ class UsageView(TemplateView):
         posts = graph_models.Post.objects.all().order_by('created_time')
         context['posts'] = list(posts.values_list('created_time', flat=True))
 
-        posts_by_day = helpers.posts_by_day()
+        posts = graph_models.Post.objects.filter(user=self.request.user)
+        posts_by_day = helpers.posts_by_day(posts)
         post_counts_by_day = [day[1] for day in posts_by_day]
         six_months_ago = datetime.date.today() - relativedelta.relativedelta(months=6)
         last_6_months = helpers.values_for_timespan(posts_by_day, six_months_ago)
@@ -106,7 +107,8 @@ class UsageView(TemplateView):
 @method_decorator(login_required, name='dispatch')
 class PostsByDayView(JsonView):
     def get_context_data(self, **kwargs):
+        posts = graph_models.Post.objects.filter(user=self.request.user)
         context = {
-            'data': helpers.posts_by_day()
+            'data': list(helpers.posts_by_day(posts))
         }
         return context

@@ -16,5 +16,7 @@ urlpatterns = [
     url(r'^facebook/comments/(?P<pk>[0-9_]+)/$',
         graph_views.CommentDetailView.as_view(),
         name="facebook_comment"),
+
     url(r'^usage/$', graph_views.UsageView.as_view(), name="usage"),
+    url(r'^usage/posts_by_day/$', graph_views.PostsByDayView.as_view(), name="posts_by_day"),
 ]

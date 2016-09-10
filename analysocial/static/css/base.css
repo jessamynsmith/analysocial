@@ -53,3 +53,8 @@ p.error_message {
 .footer {
     padding-top: 12px;
 }
+
+.statistics {
+    padding-top: 10px;
+    width: 90%;
+}

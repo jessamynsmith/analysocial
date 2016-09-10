@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "highcharts": "^4.2.5",
+    "highstock": "^3.0.1",
     "jquery": "~2.1.4"
   }
 }

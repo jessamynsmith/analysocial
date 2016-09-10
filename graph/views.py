@@ -1,15 +1,26 @@
+import datetime
+from dateutil import relativedelta
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, ListView, RedirectView, TemplateView
+from django.views.generic import DetailView, ListView, RedirectView, TemplateView, View
+from django.views.generic.base import ContextMixin
+from jsonview.decorators import json_view
 
 from graph import models as graph_models
-from graph.helpers import retrieve_facebook_posts
+from graph import helpers
+
+
+@method_decorator(json_view, name='dispatch')
+class JsonView(ContextMixin, View):
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return context
 
 
 class IndexView(RedirectView):
-
     def get_redirect_url(self, *args, **kwargs):
         return reverse('facebook_posts')
 
@@ -45,7 +56,7 @@ class PostListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
-        retrieve_facebook_posts(user=self.request.user, retrieve_all=False)
+        helpers.retrieve_facebook_posts(user=self.request.user)
         return context
 
 
@@ -67,3 +78,35 @@ class CommentDetailView(DetailView):
 @method_decorator(login_required, name='dispatch')
 class UsageView(TemplateView):
     template_name = 'graph/usage.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UsageView, self).get_context_data(**kwargs)
+        context['graph_types'] = [
+            ['posts_by_day', 'Posts By Day'],
+        ]
+        posts = graph_models.Post.objects.all().order_by('created_time')
+        context['posts'] = list(posts.values_list('created_time', flat=True))
+
+        posts_by_day = helpers.posts_by_day()
+        post_counts_by_day = [day[1] for day in posts_by_day]
+        six_months_ago = datetime.date.today() - relativedelta.relativedelta(months=6)
+        last_6_months = helpers.values_for_timespan(posts_by_day, six_months_ago)
+        last_6_months = [day[1] for day in last_6_months]
+        posts_by_count = sorted(post_counts_by_day)
+        context['posts_by_day'] = {
+            'average_all_time': helpers.get_mean(post_counts_by_day),
+            'average_6_months': helpers.get_mean(last_6_months),
+            'maximum': posts_by_count[-1],
+            'median': helpers.get_median(post_counts_by_day),
+            'mode': helpers.get_mode(post_counts_by_day),
+        }
+        return context
+
+
+@method_decorator(login_required, name='dispatch')
+class PostsByDayView(JsonView):
+    def get_context_data(self, **kwargs):
+        context = {
+            'data': helpers.posts_by_day()
+        }
+        return context

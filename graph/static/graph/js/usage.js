@@ -1,40 +1,71 @@
-$(function () {
-    $('#id_usage').highcharts({
+convertDataToDate = function(data) {
+    for (var i=0; i<data.length; i++) {
+        data[i][0] = Date.parse(data[i][0]);
+    }
+    return data;
+};
+
+posts_by_day = function(data) {
+    $('#id_posts_by_day').highcharts({
+        chart: {
+            type: 'line',
+            zoomType: 'x'
+        },
         title: {
-            text: 'KeyWord Usage by Post',
-            x: -20 //center
+            text: 'Posts By Day'
         },
         xAxis: {
-            categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+            type: 'datetime',
+            range: 6 * 30 * 24 * 3600 * 1000
+        },
+        rangeSelector: {
+            enabled: true
+        },
+        scrollbar: {
+            enabled: true
         },
         yAxis: {
+            min: 0,
             title: {
-                text: 'Posts Containing Keyword'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
+                text: 'Total Posts'
+            }
         },
         series: [{
             name: 'Total Posts',
-            data: [10, 3, 5, 6, 4, 7, 9]
-        }, {
-            name: 'Obama',
-            data: [2, 0, 2, 1, 0, 0, 3]
-        }, {
-            name: 'Trump',
-            data: [5, 2, 3, 2, 0, 4, 4]
-        }, {
-            name: 'Hillary',
-            data: [2, 0, 1, 3, 4, 2, 3]
-        }]
+            data: convertDataToDate(data.data)
+        }
+        ]
     });
+};
+
+updateView = function() {
+    $('.statistics').hide();
+    var viewType = $('#id_select_statistics').val();
+    $("#id_" + viewType).show();
+
+    var viewFunction = window[viewType];
+    if (typeof viewFunction === "function") {
+        $.ajax({
+            url: viewType,
+            contentType: 'application/json',
+            success: function (data, textStatus, jqXHR) {
+                if ($.isEmptyObject(data)) {
+                    $("." + viewType + "_error").show();
+                } else {
+                    viewFunction(data);
+                }
+            }
+        });
+    }
+};
+
+$(document).ready(function () {
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+
+    $('#id_select_statistics').on('change', updateView);
+    updateView();
 });

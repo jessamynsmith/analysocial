@@ -1,12 +1,56 @@
-import sys
-import traceback
+import statistics
 
 import facebook
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.db import IntegrityError
+from django.db.models import Count
 
 from graph import models as graph_models
+
+
+def _get_statistics_value(values, method_name, num_values_required=1):
+    value = None
+    if len(values) >= num_values_required:
+        value = method_name(values)
+    return value
+
+
+def get_mean(values):
+    mean = _get_statistics_value(values, statistics.mean)
+    if mean:
+        mean = round(mean, 1)
+    return mean
+
+
+def get_median(values):
+    return _get_statistics_value(values, statistics.median)
+
+
+def get_mode(values):
+    try:
+        mode = _get_statistics_value(values, statistics.mode)
+    except statistics.StatisticsError:
+        mode = 'No distinct mode found'
+    return mode
+
+
+def posts_by_day():
+    posts = graph_models.Post.objects.extra({'created_day': "date(created_time)"})
+    posts = posts.values('created_day').annotate(total=Count('id'))
+    posts = posts.values_list('created_day', 'total')
+    posts = sorted(list(posts), key=lambda post: post[0])
+    return posts
+
+
+def values_for_timespan(values, timestamp):
+    """ Assume values sorted from smallest to largest """
+    index = 0
+    for i, value in enumerate(values):
+        if value[0] > timestamp:
+            index = i
+            break
+    return values[index:]
 
 
 def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):

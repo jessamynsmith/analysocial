@@ -9,7 +9,7 @@
         {% csrf_token %}
         <h4>
             <span>Posts</span>
-            <button type="submit" class="btn btn-primary pull-right">Sync</button>
+            <button id="id_sync_posts" type="submit" class="btn btn-primary pull-right">Sync</button>
         </h4>
     </form>
 
@@ -35,10 +35,15 @@
             {% endfor %}
         {% else %}
             <div class="row">
-                <div class="col-md-12"><h5>No posts found. Try pressing Sync above</h5></div>
+                <div class="col-md-12"><h5>No posts found. Try pressing the Sync button above</h5></div>
             </div>
         {% endif %}
     </div>
 
     {% include 'snippets/pagination.html' %}
+{% endblock %}
+
+{% block extra_js %}
+    <script type='text/javascript' src="{% static 'overlay-component/main.js' %}"></script>
+    <script src="{% static 'graph/js/overlay.js' %}"></script>
 {% endblock %}

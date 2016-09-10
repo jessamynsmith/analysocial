@@ -18,6 +18,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "highstock": "^3.0.1",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "overlay-component": "^0.0.3"
   }
 }

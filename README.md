@@ -105,5 +105,5 @@ TODO
 * Analyze words in posts
 * Searching/sorting on posts view page
 * CSV download from site
-* Button for user to sync posts
 * Link to facebook items
+* Sync historical posts for new users (use RQ?)

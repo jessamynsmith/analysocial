@@ -3,10 +3,11 @@ from dateutil.relativedelta import relativedelta
 import pytz
 from smtplib import SMTPDataError
 
-from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.template.loader import get_template
+
+from allauth.socialaccount.models import SocialAccount
 
 from graph import models as graph_models
 from libs import email_sender, helpers
@@ -32,14 +33,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         year = options.get('year')
         user_email = options.get('user_email')
-        social_accounts = SocialAccount.objects.all()
+        social_accounts = SocialAccount.objects.filter(provider="facebook")
         if user_email:
-            social_accounts.filter(user__email=user_email)
+            social_accounts = social_accounts.filter(user__email=user_email)
 
         for social_account in social_accounts:
-            if social_account.provider.lower() != "facebook":
-                continue
-
             if year:
                 start_timestamp = datetime.datetime(year=year, month=1,
                                                     day=1, hour=0, minute=0, second=0,

@@ -67,14 +67,11 @@ def comments_by_post(comments):
 
 
 def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
-    social_accounts = SocialAccount.objects.all()
+    social_accounts = SocialAccount.objects.filter(provider="facebook")
     if user:
         social_accounts = social_accounts.filter(user=user)
 
     for social_account in social_accounts:
-        if social_account.provider.lower() != "facebook":
-            continue
-
         access_token = social_account.socialtoken_set.all()[0].token
         version = settings.FACEBOOK_API_VERSION
         graph_api = facebook.GraphAPI(access_token=access_token, version=version)

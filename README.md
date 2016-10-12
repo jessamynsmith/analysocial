@@ -103,7 +103,8 @@ TODO
 
 * Add view of top 10 posts
 * Analyze words in posts
-* Searching/sorting on posts view page
+* Date filter for posts on view page
+* Sorting on posts view page
 * CSV download from site
 * Sync historical posts for new users (use RQ?)
 * Email admin when new user signs up

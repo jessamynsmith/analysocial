@@ -76,7 +76,7 @@ This project is already set up for deployment to Heroku, on the app analysocial.
 The Heroku apps have the following addons:
     
     heroku addons:create heroku-postgresql
-    heroku addons:create mailgun
+    heroku addons:create sendgrid
     heroku addons:create newrelic
     heroku addons:create papertrail
     heroku addons:create scheduler

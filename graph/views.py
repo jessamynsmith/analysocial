@@ -3,12 +3,14 @@ from dateutil import relativedelta
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db.models.query_utils import Q
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView, RedirectView, TemplateView, View
 from django.views.generic.base import ContextMixin
 from jsonview.decorators import json_view
 
+from graph import forms as graph_forms
 from graph import models as graph_models
 from graph import helpers
 
@@ -48,14 +50,28 @@ class UserProfileView(TemplateView):
 class PostListView(ListView):
     model = graph_models.Post
     paginate_by = 25
+    searchable_fields = [
+        "created_time",
+        "story",
+        "message",
+        "comment__from_json",
+        "comment__message",
+    ]
 
     def get_queryset(self):
         queryset = super(PostListView, self).get_queryset()
         queryset = queryset.filter(user=self.request.user).order_by('-created_time')
+        search_text = self.request.GET.get('text')
+        if search_text:
+            q = Q()
+            for field in self.searchable_fields:
+                q |= Q(**{'%s__icontains' % field: search_text})
+            queryset = queryset.filter(q).distinct()
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
+        context['search_form'] = graph_forms.SearchForm(self.request.GET)
         return context
 
     def post(self, request, *args, **kwargs):

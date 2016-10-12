@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'daterange_filter',
+    'bootstrapform',
 
     'users',
     'graph',

@@ -1,17 +1,38 @@
 {% extends 'base.html' %}
 
-{% load i18n static %}
+{% load i18n static bootstrap %}
 
 {% block title %}{% trans "Facebook Posts" %}{% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <h4>
-            <span>Posts</span>
-            <button id="id_sync_posts" type="submit" class="btn btn-primary pull-right">Sync</button>
-        </h4>
-    </form>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-md-11">
+                <h4><span>Posts</span></h4>
+            </div>
+
+            <div class="col-xs-2 col-md-1">
+                <form method="post">
+                    {% csrf_token %}
+                    <button id="id_sync_posts" type="submit" class="btn btn-primary pull-right">
+                        Sync
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <form method="GET">
+                <div class="col-xs-10 col-md-11">
+                    {{ search_form|bootstrap_inline }}
+                </div>
+                <div class="col-xs-2 col-md-1">
+                    <input type="submit" value="Search" class="btn btn-primary pull-right"/>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="container">
         <div class="row">
@@ -28,7 +49,8 @@
                         <a href="{% url 'facebook_post' object.id %}">{{ object.created_time }}</a>
                     </div>
                     <div class="col-md-3">
-                        <a target="_blank" href="{{ FACEBOOK_URL }}/{{ object.id }}">{{ object.id }}</a>
+                        <a target="_blank"
+                           href="{{ FACEBOOK_URL }}/{{ object.id }}">{{ object.id }}</a>
                     </div>
                     <div class="col-md-1">{{ object.has_attachment|yesno }}</div>
                     <div class="col-md-1">{{ object.comment_set.count }}</div>
@@ -37,7 +59,8 @@
             {% endfor %}
         {% else %}
             <div class="row">
-                <div class="col-md-12"><span class="title">No posts found. Try pressing the Sync button above</span></div>
+                <div class="col-md-12"><span class="title">No posts found. Try pressing the Sync button above</span>
+                </div>
             </div>
         {% endif %}
     </div>

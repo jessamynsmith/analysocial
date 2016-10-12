@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    {% if posts|length %}
+    {% if posts %}
         <div>
             <select id="id_select_statistics">
                 <option value="statistics">Statistics</option>
@@ -87,6 +87,7 @@
                 <td>Average (All Time):</td>
                 <td>{{ comments_by_post.average_all_time|default:"" }}</td>
             </tr>
+            {% if comments_by_post %}
             <tr>
                 <td>Maximum:</td>
                 <td>
@@ -95,6 +96,7 @@
                     {{ comments_by_post.maximum.0 }}</a>)
                 </td>
             </tr>
+            {% endif %}
             <tr>
                 <td>Median:</td>
                 <td>{{ comments_by_post.median|default:"" }}</td>

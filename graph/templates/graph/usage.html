@@ -5,16 +5,18 @@
 {% block title %}{% trans "Usage" %}{% endblock %}
 
 {% block content %}
-    <div>
-        <select id="id_select_statistics">
-            <option value="statistics">Statistics</option>
-            {% for graph_type in graph_types %}
-                <option value="{{ graph_type.0 }}">{{ graph_type.1 }}</option>
-            {% endfor %}
-        </select>
-    </div>
 
-    <div id="id_statistics" class="statistics">
+    {% if posts|length %}
+        <div>
+            <select id="id_select_statistics">
+                <option value="statistics">Statistics</option>
+                {% for graph_type in graph_types %}
+                    <option value="{{ graph_type.0 }}">{{ graph_type.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <p id="id_statistics" class="statistics">
         <h4>Statistics for {{ user.get_full_name }}</h4>
 
         <table class="table-condensed">
@@ -89,7 +91,8 @@
                 <td>Maximum:</td>
                 <td>
                     {{ comments_by_post.maximum.1|default:"" }}
-                    (<a href="{% url 'facebook_post' comments_by_post.maximum.0 %}">{{ comments_by_post.maximum.0 }}</a>)
+                    (<a href="{% url 'facebook_post' comments_by_post.maximum.0 %}">
+                    {{ comments_by_post.maximum.0 }}</a>)
                 </td>
             </tr>
             <tr>
@@ -101,11 +104,15 @@
                 <td>{{ comments_by_post.mode|default:"" }}</td>
             </tr>
         </table>
-    </div>
 
-    {% for graph_type in graph_types %}
-        <div id="id_{{ graph_type.0 }}" class="statistics"></div>
-    {% endfor %}
+        {% for graph_type in graph_types %}
+            <div id="id_{{ graph_type.0 }}" class="statistics"></div>
+        {% endfor %}
+    {% else %}
+        <p><span class="title">No posts found to analyze. Try using the Sync button on the
+            <a href="{% url 'facebook_posts' %}">posts</a> page.</span>
+        </p>
+    {% endif %}
 
 {% endblock %}
 

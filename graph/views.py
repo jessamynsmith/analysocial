@@ -124,10 +124,13 @@ class UsageView(TemplateView):
         six_months_ago = datetime.date.today() - relativedelta.relativedelta(months=6)
         last_6_months = [day[1] for day in posts_by_day.filter(created_time__gt=six_months_ago)]
         posts_by_count = sorted(post_counts_by_day)
+        maximum_posts = ''
+        if len(posts_by_count):
+            maximum_posts = posts_by_count[-1]
         context['posts_by_day'] = {
             'average_all_time': helpers.get_mean(post_counts_by_day),
             'average_6_months': helpers.get_mean(last_6_months),
-            'maximum': posts_by_count[-1],
+            'maximum': maximum_posts,
             'median': helpers.get_median(post_counts_by_day),
             'mode': helpers.get_mode(post_counts_by_day),
         }

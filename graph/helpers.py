@@ -5,9 +5,14 @@ from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.db import IntegrityError
 from django.db.models import Count
+from django.template.defaultfilters import title
 
 from graph import models as graph_models
 
+
+def get_title(field_name):
+    field_words = field_name.replace('_', ' ')
+    return title(field_words)
 
 def _get_statistics_value(values, method_name, num_values_required=1):
     value = None

@@ -4,6 +4,10 @@
 
 {% block title %}{% trans "Facebook Posts" %}{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
+{% endblock %}
+
 {% block content %}
 
     <div class="container">
@@ -23,9 +27,9 @@
         </div>
 
         <div class="row">
-            <form method="GET">
+            <form method="GET" class="form-inline">
                 <div class="col-xs-9 col-sm-9 col-md-10">
-                    {{ search_form|bootstrap_inline }}
+                    {{ form|bootstrap_inline }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-2">
                     <span class="pull-right">
@@ -74,5 +78,8 @@
 
 {% block extra_js %}
     <script type='text/javascript' src="{% static 'overlay-component/main.js' %}"></script>
+    <script type='text/javascript' src="{% static 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
     <script src="{% static 'graph/js/overlay.js' %}"></script>
+    <script src="{% static 'graph/js/datepicker.js' %}"></script>
+
 {% endblock %}

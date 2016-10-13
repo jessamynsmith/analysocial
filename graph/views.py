@@ -1,5 +1,5 @@
 import datetime
-from dateutil import relativedelta
+from dateutil.relativedelta import relativedelta
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -8,11 +8,34 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, ListView, RedirectView, TemplateView, View
 from django.views.generic.base import ContextMixin
+from django.views.generic.edit import FormMixin
 from jsonview.decorators import json_view
 
 from graph import forms as graph_forms
 from graph import models as graph_models
 from graph import helpers
+
+
+class FormListView(FormMixin, ListView):
+    def get_form_kwargs(self):
+        kwargs = super(FormListView, self).get_form_kwargs()
+        if self.request.method == 'GET':
+            kwargs.update({
+                'data': self.request.GET,
+            })
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        self.form = self.get_form()
+        return super(FormListView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(FormListView, self).get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
 
 
 @method_decorator(json_view, name='dispatch')
@@ -47,7 +70,7 @@ class UserProfileView(TemplateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class PostListView(ListView):
+class PostListView(FormListView):
     model = graph_models.Post
     paginate_by = 25
     searchable_fields = [
@@ -57,22 +80,25 @@ class PostListView(ListView):
         "comment__from_json",
         "comment__message",
     ]
+    form_class = graph_forms.SearchForm
 
     def get_queryset(self):
         queryset = super(PostListView, self).get_queryset()
         queryset = queryset.filter(user=self.request.user).order_by('-created_time')
-        search_text = self.request.GET.get('text')
-        if search_text:
-            q = Q()
-            for field in self.searchable_fields:
-                q |= Q(**{'%s__icontains' % field: search_text})
-            queryset = queryset.filter(q).distinct()
+        if self.form.is_valid():
+            start_date = self.form.cleaned_data.get('start_date')
+            end_date = self.form.cleaned_data.get('end_date')
+            search_text = self.form.cleaned_data.get('text')
+            if start_date:
+                queryset = queryset.filter(created_time__gte=start_date)
+            if end_date:
+                queryset = queryset.filter(created_time__lt=end_date + relativedelta(days=1))
+            if search_text:
+                q = Q()
+                for field in self.searchable_fields:
+                    q |= Q(**{'%s__icontains' % field: search_text})
+                queryset = queryset.filter(q).distinct()
         return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super(PostListView, self).get_context_data(**kwargs)
-        context['search_form'] = graph_forms.SearchForm(self.request.GET)
-        return context
 
     def post(self, request, *args, **kwargs):
         helpers.retrieve_facebook_posts(user=self.request.user, ignore_errors=True)
@@ -121,7 +147,7 @@ class UsageView(TemplateView):
         posts = graph_models.Post.objects.filter(user=self.request.user)
         posts_by_day = helpers.posts_by_day(posts)
         post_counts_by_day = [day[1] for day in posts_by_day]
-        six_months_ago = datetime.date.today() - relativedelta.relativedelta(months=6)
+        six_months_ago = datetime.date.today() - relativedelta(months=6)
         last_6_months = [day[1] for day in posts_by_day.filter(created_time__gt=six_months_ago)]
         posts_by_count = sorted(post_counts_by_day)
         maximum_posts = ''
@@ -138,7 +164,7 @@ class UsageView(TemplateView):
         comments = graph_models.Comment.objects.filter(post__user=self.request.user)
         comments_by_post = helpers.comments_by_post(comments)
         comment_counts_by_post = [day[1] for day in comments_by_post]
-        six_months_ago = datetime.date.today() - relativedelta.relativedelta(months=6)
+        six_months_ago = datetime.date.today() - relativedelta(months=6)
         last_6_months = [day[1] for day in comments_by_post.filter(
             post__created_time__gt=six_months_ago)]
         context['comments_by_post'] = {

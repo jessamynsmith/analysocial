@@ -19,6 +19,7 @@
     "bootstrap": "^3.3.7",
     "highstock": "^3.0.1",
     "jquery": "~2.1.4",
-    "overlay-component": "^0.0.3"
+    "overlay-component": "^0.0.3",
+    "bootstrap-datepicker": "~1.6.4"
   }
 }

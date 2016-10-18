@@ -87,7 +87,7 @@
                 <td>Average (All Time):</td>
                 <td>{{ comments_by_post.average_all_time|default:"" }}</td>
             </tr>
-            {% if comments_by_post %}
+            {% if comments_by_post.count %}
             <tr>
                 <td>Maximum:</td>
                 <td>

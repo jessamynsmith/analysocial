@@ -2,14 +2,12 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query_utils import Q
 from django.urls import reverse
-from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, ListView, RedirectView, TemplateView, View
-from django.views.generic.base import ContextMixin
+from django.views.generic import DetailView, ListView, RedirectView, TemplateView
 from django.views.generic.edit import FormMixin
-from jsonview.decorators import json_view
+from jsonview.views import JsonView
 
 from graph import forms as graph_forms
 from graph import models as graph_models
@@ -38,13 +36,6 @@ class FormListView(FormMixin, ListView):
         return self.get(request, *args, **kwargs)
 
 
-@method_decorator(json_view, name='dispatch')
-class JsonView(ContextMixin, View):
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        return context
-
-
 class IndexView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         return reverse('facebook_posts')
@@ -59,8 +50,7 @@ class PrivacyView(TemplateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
-class UserProfileView(TemplateView):
+class UserProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'account/profile.html'
 
     def get_context_data(self, **kwargs):
@@ -69,8 +59,7 @@ class UserProfileView(TemplateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
-class PostListView(FormListView):
+class PostListView(LoginRequiredMixin, FormListView):
     model = graph_models.Post
     paginate_by = 25
     searchable_fields = [
@@ -105,23 +94,19 @@ class PostListView(FormListView):
         return self.get(request, *args, **kwargs)
 
 
-@method_decorator(login_required, name='dispatch')
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = graph_models.Post
 
 
-@method_decorator(login_required, name='dispatch')
-class AttachmentDetailView(DetailView):
+class AttachmentDetailView(LoginRequiredMixin, DetailView):
     model = graph_models.Attachment
 
 
-@method_decorator(login_required, name='dispatch')
-class CommentDetailView(DetailView):
+class CommentDetailView(LoginRequiredMixin, DetailView):
     model = graph_models.Comment
 
 
-@method_decorator(login_required, name='dispatch')
-class UsageView(TemplateView):
+class UsageView(LoginRequiredMixin, TemplateView):
     template_name = 'graph/usage.html'
 
     def get_context_data(self, **kwargs):
@@ -178,8 +163,7 @@ class UsageView(TemplateView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
-class PostsByDayView(JsonView):
+class PostsByDayView(LoginRequiredMixin, JsonView):
     def get_context_data(self, **kwargs):
         posts = graph_models.Post.objects.filter(user=self.request.user)
         context = {
@@ -188,8 +172,7 @@ class PostsByDayView(JsonView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
-class PostsByMonthView(JsonView):
+class PostsByMonthView(LoginRequiredMixin, JsonView):
     def get_context_data(self, **kwargs):
         posts = graph_models.Post.objects.filter(user=self.request.user)
         context = {
@@ -198,8 +181,7 @@ class PostsByMonthView(JsonView):
         return context
 
 
-@method_decorator(login_required, name='dispatch')
-class PostsByYearView(JsonView):
+class PostsByYearView(LoginRequiredMixin, JsonView):
     def get_context_data(self, **kwargs):
         posts = graph_models.Post.objects.filter(user=self.request.user)
         context = {

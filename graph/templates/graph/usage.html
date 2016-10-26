@@ -16,7 +16,7 @@
             </select>
         </div>
 
-        <p id="id_statistics" class="statistics">
+        <div id="id_statistics" class="statistics">
         <h4>Statistics for {{ user.get_full_name }}</h4>
 
         <table class="table-condensed">
@@ -106,15 +106,15 @@
                 <td>{{ comments_by_post.mode|default:"" }}</td>
             </tr>
         </table>
-        </p>
+        </div>
 
         {% for graph_type in graph_types %}
             <div id="id_{{ graph_type.0 }}" class="statistics"></div>
         {% endfor %}
     {% else %}
-        <p><span class="title">No posts found to analyze. Try using the Sync button on the
+        <div><span class="title">No posts found to analyze. Try using the Sync button on the
             <a href="{% url 'facebook_posts' %}">posts</a> page.</span>
-        </p>
+        </div>
     {% endif %}
 
 {% endblock %}

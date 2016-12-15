@@ -81,7 +81,13 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
         version = settings.FACEBOOK_API_VERSION
         graph_api = facebook.GraphAPI(access_token=access_token, version=version)
         request_path = 'me/posts/'
-        posts = graph_api.request(request_path)
+        try:
+            posts = graph_api.request(request_path)
+        except facebook.GraphAPIError as e:
+            print('Unable to retrieve posts for {}: {}'.format(social_account, e))
+            if not ignore_errors:
+                raise e
+            continue
 
         while 'data' in posts:
             for post_data in posts['data']:

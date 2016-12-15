@@ -37,22 +37,22 @@ class Command(BaseCommand):
         if user_email:
             social_accounts = social_accounts.filter(user__email=user_email)
 
-        for social_account in social_accounts:
-            if year:
-                start_timestamp = datetime.datetime(year=year, month=1,
-                                                    day=1, hour=0, minute=0, second=0,
-                                                    tzinfo=pytz.UTC)
-                end_timestamp = start_timestamp + relativedelta(years=1)
-                posts_date = year
-            else:
-                today = datetime.date.today()
-                yesterday = today - relativedelta(days=1)
-                start_timestamp = datetime.datetime(year=yesterday.year, month=yesterday.month,
-                                                    day=yesterday.day, hour=0, minute=0, second=0,
-                                                    tzinfo=pytz.UTC)
-                end_timestamp = start_timestamp + relativedelta(days=1)
-                posts_date = start_timestamp.date()
+        if year:
+            start_timestamp = datetime.datetime(year=year, month=1,
+                                                day=1, hour=0, minute=0, second=0,
+                                                tzinfo=pytz.UTC)
+            end_timestamp = start_timestamp + relativedelta(years=1)
+            posts_date = year
+        else:
+            today = datetime.date.today()
+            yesterday = today - relativedelta(days=1)
+            start_timestamp = datetime.datetime(year=yesterday.year, month=yesterday.month,
+                                                day=yesterday.day, hour=0, minute=0, second=0,
+                                                tzinfo=pytz.UTC)
+            end_timestamp = start_timestamp + relativedelta(days=1)
+            posts_date = start_timestamp.date()
 
+        for social_account in social_accounts:
             data = {
                 'posts': graph_models.Post.objects.filter(
                     user=social_account.user, created_time__gte=start_timestamp,

@@ -1,0 +1,13 @@
+{% extends "email/base.html" %}
+
+{% block content %}
+    <p>If you want Analysocial to continue to have access to your Facebook account, you need to
+        refresh your login by clicking here and logging in:</p>
+
+    <p>
+        <a style="text-decoration: none; color: #ffffff;" target="_blank"
+           href="{{ full_domain }}{% url 'account_login' %}">
+            Log in here
+        </a>
+    </p>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "email/base.txt" %}
+
+{% block content %}
+If you want Analysocial to continue to have access to your Facebook account, you need to refresh your login by clicking here and logging in:
+
+{{full_domain}}{% url 'account_login' %}
+{% endblock %}

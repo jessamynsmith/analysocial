@@ -10,7 +10,7 @@ class UserProfile(models.Model):
 
 
 def create_user_profile(sender, instance, **kwargs):
-    if not hasattr(instance, 'user_profile'):
+    if not hasattr(instance, 'userprofile'):
         UserProfile(user=instance).save()
 
 

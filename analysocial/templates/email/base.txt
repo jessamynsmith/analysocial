@@ -5,3 +5,4 @@ Cheers!
 
 Check your posts: {{full_domain}}{% url 'facebook_posts' %}
 Found a bug? Have a feature request? Please let us know: https://github.com/jessamynsmith/analysocial/issues
+Disable email notifications: {{full_domain}}{% url 'user_profile' %}

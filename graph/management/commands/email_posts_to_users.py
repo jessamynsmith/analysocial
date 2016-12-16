@@ -33,7 +33,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         year = options.get('year')
         user_email = options.get('user_email')
-        social_accounts = SocialAccount.objects.filter(provider="facebook")
+        social_accounts = SocialAccount.objects.filter(provider="facebook",
+                                                       user__userprofile__receive_emails=True)
         if user_email:
             social_accounts = social_accounts.filter(user__email=user_email)
 

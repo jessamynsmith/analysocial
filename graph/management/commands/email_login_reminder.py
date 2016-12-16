@@ -19,6 +19,7 @@ class Command(BaseCommand):
         last_month = now - relativedelta(days=30)
 
         social_accounts = SocialAccount.objects.filter(provider="facebook",
+                                                       user__userprofile__receive_emails=True,
                                                        last_login__lte=last_month)
 
         for social_account in social_accounts:

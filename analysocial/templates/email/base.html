@@ -27,13 +27,13 @@
 
     <div style="width: 100%; padding: 8px; text-align: center;">
 
-  <span
-      style="width: auto; display: inline-block; padding: 6px 12px; background-color: #355E3B; border-radius: 3px; cursor: pointer;">
-    <a style="text-decoration: none; color: #ffffff;" target="_blank"
-       href="{{ full_domain }}{% url 'facebook_posts' %}">
-      Check your posts
-    </a>
-  </span>
+        <span
+          style="width: auto; display: inline-block; padding: 6px 12px; background-color: #355E3B; border-radius: 3px; cursor: pointer;">
+        <a style="text-decoration: none; color: #ffffff;" target="_blank"
+           href="{{ full_domain }}{% url 'facebook_posts' %}">
+          Check your posts
+        </a>
+        </span>
 
         <div style="margin: 8px;">
             Found a bug? Have a feature request?
@@ -42,6 +42,12 @@
             <a href="https://github.com/jessamynsmith/analysocial/issues" target="_blank">
                 let us know</a>.
         </div>
+
+        <span
+    style="width: auto; display: inline-block; padding: 6px 12px; background-color: #c0c0c0; border-radius: 3px; cursor: pointer;">
+            <a style="text-decoration: none; color: #000000;" target="_blank"
+       href="{{ full_domain }}{% url 'user_profile' %}">Disable email notifications</a>
+        </span>
 
     </div>
 

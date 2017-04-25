@@ -41,6 +41,15 @@ Set up db:
 
     createdb analysocial
     python manage.py migrate
+    python manage.py createsuperuser  # Creates a superuser for the Admin, necessary to configure Facebook
+
+Set up Facebook integration:
+
+    Create a Facebook test application, with Facebook login (set Valid OAuth redirect URIs to localhost)
+    python manage.py runserver
+    Log into the Django admin
+    Edit the Site to have the correct localhost url
+    Create a Social application with info from Facebook (Client id == App ID, Secret key = App Secret, select site)
 
 Run unit tests and view coverage:
 

@@ -146,3 +146,56 @@ def retrieve_facebook_posts(user=None, retrieve_all=False, ignore_errors=False):
                 posts = graph_api.request(request_path)
             else:
                 posts = {}
+
+
+def retrieve_facebook_messages(user=None, retrieve_all=False, ignore_errors=False):
+    social_accounts = SocialAccount.objects.filter(provider="facebook")
+    if user:
+        social_accounts = social_accounts.filter(user=user)
+
+    for social_account in social_accounts:
+        access_token = social_account.socialtoken_set.all()[0].token
+        version = settings.FACEBOOK_API_VERSION
+        graph_api = facebook.GraphAPI(access_token=access_token, version=version)
+        base_request_path = '{}/inbox/'.format(social_account.uid)
+        request_path = base_request_path
+        try:
+            messages = graph_api.request(request_path)
+        except facebook.GraphAPIError as e:
+            print('Unable to retrieve messages for {}: {}'.format(social_account, e))
+            if not ignore_errors:
+                raise e
+            continue
+
+        while 'data' in messages:
+            for message_data in messages['data']:
+                message_data['user'] = social_account.user
+                message_data['from_data'] = message_data.pop('from', None)
+                message_data['to_data'] = message_data.pop('to')
+                message_data.pop('comments', None)
+                try:
+                    message = graph_models.Message(**message_data)
+                    message.save()
+
+                except IntegrityError as e:
+                    if str(e).find('duplicate key value') >= 0:
+                        if not ignore_errors:
+                            messages = {}
+                            break
+                    raise e
+                except Exception as e:
+                    print(request_path)
+                    print(message_data)
+                    raise e
+
+            if not retrieve_all or not messages:
+                break
+
+            next_page = messages.get('paging', {}).get('next')
+            print(next_page)
+            if next_page:
+                request_path = '%s?%s' % (base_request_path, next_page.split('?')[1])
+                print(request_path)
+                messages = graph_api.request(request_path)
+            else:
+                messages = {}

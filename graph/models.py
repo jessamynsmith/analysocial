@@ -4,6 +4,21 @@ from django.db import models
 from django.template.defaultfilters import truncatewords
 
 
+class Message(models.Model):
+    id = models.CharField(max_length=40, primary_key=True)
+    updated_time = models.DateTimeField()
+    from_data = JSONField(null=True)
+    to_data = JSONField()
+    message = models.TextField()
+    unread = models.IntegerField()
+    unseen = models.IntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        message = truncatewords(self.message, 10)
+        return '%s: %s (%s - %s)' % (self.user, message, self.updated_time, self.id)
+
+
 class Post(models.Model):
     id = models.CharField(max_length=40, primary_key=True)
     created_time = models.DateTimeField()

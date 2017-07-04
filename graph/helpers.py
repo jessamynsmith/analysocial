@@ -192,10 +192,12 @@ def retrieve_facebook_messages(user=None, retrieve_all=False, ignore_errors=Fals
                 break
 
             next_page = messages.get('paging', {}).get('next')
-            print(next_page)
             if next_page:
                 request_path = '%s?%s' % (base_request_path, next_page.split('?')[1])
-                print(request_path)
-                messages = graph_api.request(request_path)
+                try:
+                    messages = graph_api.request(request_path)
+                except facebook.GraphAPIError as e:
+                    print(request_path)
+                    raise e
             else:
                 messages = {}

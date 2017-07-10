@@ -97,6 +97,40 @@ class CommentDetailView(LoginRequiredMixin, DetailView):
     model = graph_models.Comment
 
 
+class MessageListView(LoginRequiredMixin, FormListView):
+    model = graph_models.Message
+    paginate_by = 25
+    searchable_fields = [
+        "updated_time",
+        "message",
+        "from_data",
+        "to_data",
+    ]
+    form_class = graph_forms.SearchForm
+
+    def get_queryset(self):
+        queryset = super(MessageListView, self).get_queryset()
+        queryset = queryset.filter(user=self.request.user).order_by('-updated_time')
+        if self.form.is_valid():
+            start_date = self.form.cleaned_data.get('start_date')
+            end_date = self.form.cleaned_data.get('end_date')
+            search_text = self.form.cleaned_data.get('text')
+            if start_date:
+                queryset = queryset.filter(updated_time__gte=start_date)
+            if end_date:
+                queryset = queryset.filter(updated_time__lt=end_date + relativedelta(days=1))
+            if search_text:
+                q = Q()
+                for field in self.searchable_fields:
+                    q |= Q(**{'%s__icontains' % field: search_text})
+                queryset = queryset.filter(q).distinct()
+        return queryset
+
+
+class MessageDetailView(LoginRequiredMixin, DetailView):
+    model = graph_models.Message
+
+
 class UsageView(LoginRequiredMixin, TemplateView):
     template_name = 'graph/usage.html'
 

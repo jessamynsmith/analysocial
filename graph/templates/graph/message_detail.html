@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load i18n static %}
+
+{% block title %}{% trans "Facebook Message" %} {{ object.id }}{% endblock %}
+
+{% block content %}
+    <h4>Message Details</h4>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"><span class="title">Updated Date</span></div>
+            <div class="col-md-10">{{ object.updated_time }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="title">ID</span></div>
+            <div class="col-md-10">
+                <a target="_blank" href="{{ FACEBOOK_URL }}/{{ object.id }}">{{ object.id }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="title">Message</span></div>
+            <div class="col-md-10">
+                {% if object.message|slice:":4" == 'http' %}
+                    <a target="_blank" href="{{ object.message }}">{{ object.message }}</a>
+                {% else %}
+                    {{ object.message }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="title">From</span></div>
+            <div class="col-md-10">
+                {{ object.from_data }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="title">To</span></div>
+            <div class="col-md-10">
+                {{ object.to_data }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

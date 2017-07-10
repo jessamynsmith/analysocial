@@ -2,7 +2,7 @@
 
 {% load i18n static bootstrap %}
 
-{% block title %}{% trans "Facebook Posts" %}{% endblock %}
+{% block title %}{% trans "Facebook Messages" %}{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css' %}">
@@ -13,16 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-10 col-md-11">
-                <h4><span>Posts</span></h4>
-            </div>
-
-            <div class="col-xs-2 col-md-1">
-                <form method="post">
-                    {% csrf_token %}
-                    <button id="id_sync_posts" type="submit" class="btn btn-primary pull-right">
-                        Sync
-                    </button>
-                </form>
+                <h4><span>Messages</span></h4>
             </div>
         </div>
 
@@ -33,7 +24,7 @@
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-2">
                     <span class="pull-right">
-                        <a href="{% url 'facebook_posts' %}" class="btn btn-primary">Clear</a>
+                        <a href="{% url 'facebook_messages' %}" class="btn btn-primary">Clear</a>
                         &nbsp;&nbsp;
                         <input type="submit" value="Search" class="btn btn-primary"/>
                     </span>
@@ -44,30 +35,34 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-2"><span class="title">Created Date</span></div>
-            <div class="col-md-3"><span class="title">ID</span></div>
-            <div class="col-md-1"><span class="title">Attachment</span></div>
-            <div class="col-md-1"><span class="title">Comments</span></div>
-            <div class="col-md-5"><span class="title">Message</span></div>
+            <div class="col-md-2"><span class="title">Updated Date</span></div>
+            <div class="col-md-2"><span class="title">ID</span></div>
+            <div class="col-md-2"><span class="title">From</span></div>
+            <div class="col-md-2"><span class="title">To Data</span></div>
+            <div class="col-md-4"><span class="title">Message</span></div>
         </div>
         {% if object_list.count %}
             {% for object in object_list %}
                 <div class="row">
                     <div class="col-md-2">
-                        <a href="{% url 'facebook_post' object.id %}">{{ object.created_time }}</a>
+                        <a href="{% url 'facebook_message' object.id %}">{{ object.updated_time }}</a>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <a target="_blank"
                            href="{{ FACEBOOK_URL }}/{{ object.id }}">{{ object.id }}</a>
                     </div>
-                    <div class="col-md-1">{{ object.has_attachment|yesno }}</div>
-                    <div class="col-md-1">{{ object.comment_set.count }}</div>
-                    <div class="col-md-5">{{ object.message|truncatechars:100 }}</div>
+                    <div class="col-md-2">{{ object.from_data.name }}</div>
+                    <div class="col-md-2">
+                        {% for line in object.to_data.data %}
+                            {{ line.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-4">{{ object.message|truncatechars:100 }}</div>
                 </div>
             {% endfor %}
         {% else %}
             <div class="row">
-                <div class="col-md-12"><span class="title">No posts found. Try pressing the Sync button above.</span>
+                <div class="col-md-12"><span class="title">No messages found.</span>
                 </div>
             </div>
         {% endif %}

@@ -1,8 +1,15 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
+from rest_framework import routers
 
 from graph import views as graph_views
 
+
+router = routers.DefaultRouter()
+
+
 urlpatterns = [
+    url(r'^api/v1/', include(router.urls)),
+
     url(r'^$', graph_views.IndexView.as_view()),
     url(r'^privacy/$', graph_views.PrivacyView.as_view(), name="privacy"),
     url(r'^facebook/posts/$', graph_views.PostListView.as_view(), name="facebook_posts"),

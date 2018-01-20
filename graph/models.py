@@ -12,7 +12,7 @@ class Message(models.Model):
     message = models.TextField()
     unread = models.IntegerField()
     unseen = models.IntegerField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         message = truncatewords(self.message, 10)
@@ -24,7 +24,7 @@ class Post(models.Model):
     created_time = models.DateTimeField()
     story = models.TextField()
     message = models.TextField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def has_attachment(self):
         return self.attachment is not None
@@ -35,7 +35,7 @@ class Post(models.Model):
 
 
 class Attachment(models.Model):
-    post = models.OneToOneField(Post)
+    post = models.OneToOneField(Post, on_delete=models.CASCADE)
     url = models.TextField()
     title = models.TextField()
     type = models.CharField(max_length=40)
@@ -54,9 +54,10 @@ class Attachment(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     # Only set for comments on comments
-    comment = models.ForeignKey("Comment", null=True, blank=True, related_name='comment_set')
+    comment = models.ForeignKey("Comment", null=True, blank=True, related_name='comment_set',
+                                on_delete=models.CASCADE)
     id = models.TextField(primary_key=True)
     from_json = JSONField()
     created_time = models.DateTimeField()

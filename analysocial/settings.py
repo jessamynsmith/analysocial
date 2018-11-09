@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.linkedin_oauth2',
     'daterange_filter',
     'bootstrapform',
 
@@ -134,9 +135,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ACCOUNT_EMAIL_VERIFICATION = False
-LOGIN_REDIRECT_URL = '/facebook_posts/'
+LOGIN_REDIRECT_URL = '/facebook/posts/'
 ACCOUNT_LOGOUT_ON_GET = True
 FACEBOOK_API_VERSION = '2.7'
+SOCIALACCOUNT_QUERY_EMAIL = True
 # TODO Allauth should have better error message if api version is incorrect
 SOCIALACCOUNT_PROVIDERS = {
     'facebook':
@@ -157,7 +159,21 @@ SOCIALACCOUNT_PROVIDERS = {
          'EXCHANGE_TOKEN': True,
          'VERIFIED_EMAIL': True,
          'VERSION': 'v%s' % FACEBOOK_API_VERSION
-         }
+    },
+    'linkedin': {
+        'SCOPE': [
+            'r_basicprofile',
+            'r_emailaddress'
+        ],
+        'PROFILE_FIELDS': [
+            'id',
+            'first-name',
+            'last-name',
+            'email-address',
+            'picture-url',
+            'public-profile-url',
+        ]
+    }
 }
 
 

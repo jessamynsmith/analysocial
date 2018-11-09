@@ -141,24 +141,25 @@ FACEBOOK_API_VERSION = '2.7'
 SOCIALACCOUNT_QUERY_EMAIL = True
 # TODO Allauth should have better error message if api version is incorrect
 SOCIALACCOUNT_PROVIDERS = {
-    'facebook':
-        {'METHOD': 'oauth2',
-         'SCOPE': ['email', 'public_profile', 'user_posts'],
-         'FIELDS': [
-             'id',
-             'email',
-             'name',
-             'first_name',
-             'last_name',
-             'verified',
-             'locale',
-             'timezone',
-             'link',
-             'gender',
-             'updated_time'],
-         'EXCHANGE_TOKEN': True,
-         'VERIFIED_EMAIL': True,
-         'VERSION': 'v%s' % FACEBOOK_API_VERSION
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_posts'],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'
+        ],
+        'EXCHANGE_TOKEN': True,
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v%s' % FACEBOOK_API_VERSION
     },
     'linkedin': {
         'SCOPE': [

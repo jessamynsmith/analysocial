@@ -5,8 +5,8 @@ from users import views as user_views
 
 
 router = routers.DefaultRouter()
-router.register(r'users', user_views.UserViewSet, base_name='users')
-router.register(r'userprofiles', user_views.UserProfileViewSet, base_name='userprofiles')
+router.register(r'users', user_views.UserViewSet, basename='users')
+router.register(r'userprofiles', user_views.UserProfileViewSet, basename='userprofiles')
 
 
 urlpatterns = [

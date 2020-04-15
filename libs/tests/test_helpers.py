@@ -34,7 +34,7 @@ class TestWriteCsv(TestCase):
         queryset = get_user_model().objects.all().values('username', 'email')
         result = helpers.create_csv(queryset)
 
-        expected = (b'email,username\r\n'
-                    b'jessamyn1@example.com,jessamyn1\r\n'
-                    b'jessamyn2@example.com,jessamyn2\r\n')
+        expected = (b'username,email\r\n'
+                    b'jessamyn1,jessamyn1@example.com\r\n'
+                    b'jessamyn2,jessamyn2@example.com\r\n')
         self.assertEqual(expected, result.getvalue())

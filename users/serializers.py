@@ -5,7 +5,8 @@ from users import models as user_models
 
 
 class UserSerializer(serializers.ModelSerializer):
-    userprofile = serializers.HyperlinkedRelatedField(read_only=True, view_name='userprofiles-detail')
+    userprofile = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name='userprofiles-detail')
 
     class Meta:
         model = get_user_model()

@@ -20,8 +20,9 @@ DEPLOY_DATE="$DEPLOY_DATE" \
 
 if [ $CIRCLE ]
 then
-    git fetch origin --unshallow
-    git push git@heroku.com:analysocial.git $CIRCLE_SHA1:refs/heads/master
+    git push https://heroku:$HEROKU_API_KEY@git.heroku.com/analysocial.git master
 else
     git push heroku master
 fi
+
+heroku run python manage.py migrate --noinput --app analysocial

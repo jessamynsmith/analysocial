@@ -20,7 +20,7 @@ DEPLOY_DATE="$DEPLOY_DATE" \
 
 if [ $CIRCLE ]
 then
-    git push https://heroku:$HEROKU_API_KEY@git.heroku.com/analysocial.git master
+    echo "Push is handled by circle heroku orb"
 else
     git push heroku master
 fi

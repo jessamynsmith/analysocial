@@ -1,16 +1,19 @@
+orbs:
+  heroku: circleci/heroku@1.2.5
+version: 2.1
 workflows:
   version: 2
   build-deploy:
     jobs:
       - build
-      - deploy:
+      - heroku/deploy-via-git:
+          post-steps:
+            - run: bash scripts/deploy_to_heroku.sh circle
           requires:
             - build
           filters:
             branches:
               only: master
-
-version: 2
 jobs:
   build:
     docker:
@@ -60,13 +63,3 @@ jobs:
             node_modules/.bin/jshint */static/*/js
             coverage run manage.py test
             PYTHONPATH=. coveralls
-  deploy:
-    docker:
-      - image: buildpack-deps:trusty
-    steps:
-      - checkout
-      - run:
-          name: Deploy Master to Heroku
-          command: |
-            wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | bash
-            bash scripts/deploy_to_heroku.sh circle
